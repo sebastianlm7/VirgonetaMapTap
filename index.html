@@ -9,181 +9,126 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 <style>
   :root {
-    --bg: #0f0f11;
-    --bg2: #18181c;
-    --bg3: #22222a;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.14);
-    --text: #f0eee8;
-    --muted: #888680;
-    --hint: #555350;
-    --accent: #c8f04a;
-    --accent2: #7ee8a2;
-    --accent3: #f0a04a;
-    --purple: #a78bfa;
-    --r1: #555350; --r1bg: #2a2925; --r1t: #b4b2a9;
-    --r2: #378add; --r2bg: #0d1f33; --r2t: #85b7eb;
-    --r3: #1d9e75; --r3bg: #0a211a; --r3t: #5dcaa5;
-    --r4: #ba7517; --r4bg: #251a08; --r4t: #ef9f27;
-    --r5: #d85a30; --r5bg: #2a1008; --r5t: #f0997b;
-    --radius: 10px;
-    --radius-sm: 6px;
+    --bg:#0f0f11;--bg2:#18181c;--bg3:#22222a;
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+    --text:#f0eee8;--muted:#888680;--hint:#555350;
+    --accent:#c8f04a;--accent3:#f0a04a;--purple:#a78bfa;
+    --r1:#555350;--r1bg:#2a2925;--r1t:#b4b2a9;
+    --r2:#378add;--r2bg:#0d1f33;--r2t:#85b7eb;
+    --r3:#1d9e75;--r3bg:#0a211a;--r3t:#5dcaa5;
+    --r4:#ba7517;--r4bg:#251a08;--r4t:#ef9f27;
+    --r5:#d85a30;--r5bg:#2a1008;--r5t:#f0997b;
+    --radius:10px;--radius-sm:6px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-  }
-  a { color: inherit; }
-
-  /* Layout */
-  .app { max-width: 720px; margin: 0 auto; padding: 2rem 1rem 4rem; }
-
-  /* Header */
-  .header { margin-bottom: 2rem; }
-  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
-  .header h1 .pin { color: var(--accent); font-size: 24px; }
-  .header p { font-size: 14px; color: var(--muted); margin-top: 4px; font-family: 'DM Mono', monospace; }
-
-  /* Tabs */
-  .tabs { display: flex; gap: 2px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 4px; margin-bottom: 1.5rem; overflow-x: auto; }
-  .tab { padding: 8px 14px; font-size: 13px; font-family: 'Syne', sans-serif; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); border-radius: var(--radius-sm); transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
-  .tab:hover { color: var(--text); background: var(--bg3); }
-  .tab.active { background: var(--accent); color: #0f0f11; }
-  .tab.active i { color: #0f0f11; }
-  .panel { display: none; }
-  .panel.active { display: block; }
-
-  /* Cards */
-  .card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; }
-
-  /* Forms */
-  input[type=text], input[type=number], select, textarea {
-    background: var(--bg3); border: 0.5px solid var(--border2); border-radius: var(--radius-sm);
-    color: var(--text); font-family: 'Syne', sans-serif; font-size: 14px;
-    padding: 9px 12px; outline: none; transition: border-color 0.15s; width: 100%;
-  }
-  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-  select option { background: var(--bg3); }
-  input[type=number] { font-family: 'DM Mono', monospace; }
-  button {
-    background: var(--bg3); border: 0.5px solid var(--border2); border-radius: var(--radius-sm);
-    color: var(--text); font-family: 'Syne', sans-serif; font-weight: 600; font-size: 13px;
-    padding: 9px 16px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px;
-  }
-  button:hover { background: var(--bg2); border-color: var(--accent); color: var(--accent); }
-  button.primary { background: var(--accent); color: #0f0f11; border-color: var(--accent); }
-  button.primary:hover { background: #d8ff5a; border-color: #d8ff5a; color: #0f0f11; }
-  button.danger:hover { border-color: #e24b4a; color: #e24b4a; }
-  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-  .row input, .row select { flex: 1; }
-
-  /* Días chips */
-  .dias { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-  .dia-chip { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 0.5px solid var(--border2); background: var(--bg3); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .dia-chip:hover { color: var(--text); border-color: var(--border2); }
-  .dia-chip.sel { background: rgba(200,240,74,0.12); color: var(--accent); border-color: var(--accent); }
-
-  /* Player chips */
-  .player-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 12px; border-radius: 20px; font-size: 13px; border: 0.5px solid var(--border2); background: var(--bg3); color: var(--muted); cursor: pointer; transition: all 0.15s; margin: 2px; }
-  .player-chip.sel { background: rgba(167,139,250,0.12); color: var(--purple); border-color: var(--purple); }
-  .player-chip .x { font-size: 14px; color: var(--hint); cursor: pointer; }
-  .player-chip .x:hover { color: #e24b4a; }
-
-  /* Badges ronda */
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace; }
-  .r1 { background: var(--r1bg); color: var(--r1t); border: 0.5px solid var(--r1); }
-  .r2 { background: var(--r2bg); color: var(--r2t); border: 0.5px solid var(--r2); }
-  .r3 { background: var(--r3bg); color: var(--r3t); border: 0.5px solid var(--r3); }
-  .r4 { background: var(--r4bg); color: var(--r4t); border: 0.5px solid var(--r4); }
-  .r5 { background: var(--r5bg); color: var(--r5t); border: 0.5px solid var(--r5); }
-
-  /* Tabla */
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th { text-align: left; padding: 8px 10px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 0.5px solid var(--border); }
-  td { padding: 10px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(255,255,255,0.02); }
-  .pts-val { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--accent); }
-
-  /* Ronda row */
-  .ronda-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
-  .ronda-row:last-child { border-bottom: none; }
-  .ronda-lbl { width: 180px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; font-size: 13px; }
-  .mult-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent3); background: rgba(240,160,74,0.1); border: 0.5px solid var(--accent3); border-radius: 4px; padding: 1px 5px; }
-
-  /* Parse input */
-  .parse-input { font-family: 'DM Mono', monospace; font-size: 15px; letter-spacing: 0.02em; }
-  .parse-preview { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-top: 10px; }
-  .parse-pill { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; }
-  .parse-pill .p-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; font-family: 'DM Mono', monospace; }
-  .parse-pill .p-pts { font-size: 16px; font-weight: 600; font-family: 'DM Mono', monospace; color: var(--accent); }
-  .parse-pill .p-lugar { font-size: 10px; color: var(--hint); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .parse-total { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--muted); margin-top: 8px; text-align: right; }
-  .parse-total span { color: var(--accent); font-size: 18px; font-weight: 600; }
-
-  /* Resumen del día */
-  .jornada-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 8px; }
-  .jornada-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .jornada-name { font-weight: 700; font-size: 15px; }
-  .jornada-total { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 600; color: var(--accent); }
-  .mini-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
-  .mini-cell { background: var(--bg2); border-radius: 6px; padding: 5px 4px; text-align: center; }
-  .mini-pts { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; }
-  .mini-lugar { font-size: 10px; color: var(--hint); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-  /* Step indicators */
-  .step { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
-  .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--bg3); border: 0.5px solid var(--border2); color: var(--muted); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
-  .step-num.done { background: rgba(200,240,74,0.15); border-color: var(--accent); color: var(--accent); }
-  .step-title { font-size: 14px; font-weight: 600; color: var(--text); }
-
-  /* Lugar confirmed pills */
-  .lugar-confirmed { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .lugar-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--text); }
-
-  /* Stat cards */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-bottom: 1rem; }
-  .stat-box { background: var(--bg3); border-radius: var(--radius-sm); padding: 0.75rem; }
-  .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
-  .stat-val { font-size: 22px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--accent); }
-
-  /* Section divider */
-  .section-div { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin: 1.25rem 0 0.6rem; border-bottom: 0.5px solid var(--border); padding-bottom: 6px; }
-
-  /* Pais card */
-  .pais-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 8px; }
-  .pais-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .pais-name { font-weight: 700; font-size: 15px; flex: 1; }
-
-  /* Leader badge */
-  .leader { background: rgba(240,160,74,0.15); color: var(--accent3); border: 0.5px solid var(--accent3); padding: 1px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 6px; }
-
-  /* Empty */
-  .empty { text-align: center; padding: 2.5rem 1rem; color: var(--hint); font-size: 14px; }
-  .empty i { font-size: 32px; display: block; margin-bottom: 8px; color: var(--bg3); }
-
-  /* Toast */
-  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: #0f0f11; padding: 10px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 700; opacity: 0; transform: translateY(10px); transition: all 0.2s; pointer-events: none; z-index: 9999; }
-  .toast.show { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 500px) {
-    .app { padding: 1rem 0.75rem 3rem; }
-    .ronda-lbl { width: 130px; }
-    .parse-pill .p-label { font-size: 9px; }
-    .parse-pill .p-pts { font-size: 14px; }
-  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;}
+  .app{max-width:720px;margin:0 auto;padding:2rem 1rem 4rem;}
+  .header{margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;}
+  .header h1{font-size:28px;font-weight:700;letter-spacing:-0.5px;display:flex;align-items:center;gap:10px;}
+  .header h1 .pin{color:var(--accent);}
+  .header p{font-size:14px;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace;}
+  .sync-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--hint);transition:background 0.3s;}
+  .sync-dot.connected{background:#7ee8a2;}
+  .sync-dot.syncing{background:var(--accent3);}
+  .tabs{display:flex;gap:2px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:1.5rem;overflow-x:auto;}
+  .tab{padding:8px 14px;font-size:13px;font-family:'Syne',sans-serif;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-radius:var(--radius-sm);transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+  .tab:hover{color:var(--text);background:var(--bg3);}
+  .tab.active{background:var(--accent);color:#0f0f11;}
+  .panel{display:none;}.panel.active{display:block;}
+  .card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
+  .card-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
+  input[type=text],input[type=number],select{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;padding:9px 12px;outline:none;transition:border-color 0.15s;width:100%;}
+  input:focus,select:focus{border-color:var(--accent);}
+  select option{background:var(--bg3);}
+  button{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-weight:600;font-size:13px;padding:9px 16px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px;}
+  button:hover{background:var(--bg2);border-color:var(--accent);color:var(--accent);}
+  button.primary{background:var(--accent);color:#0f0f11;border-color:var(--accent);}
+  button.primary:hover{background:#d8ff5a;border-color:#d8ff5a;color:#0f0f11;}
+  button.danger:hover{border-color:#e24b4a;color:#e24b4a;}
+  .row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+  .row input,.row select{flex:1;}
+  .dias{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
+  .dia-chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .dia-chip.sel{background:rgba(200,240,74,0.12);color:var(--accent);border-color:var(--accent);}
+  .player-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 12px;border-radius:20px;font-size:13px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;margin:2px;}
+  .player-chip.sel{background:rgba(167,139,250,0.12);color:var(--purple);border-color:var(--purple);}
+  .player-chip .x{font-size:14px;color:var(--hint);cursor:pointer;}
+  .player-chip .x:hover{color:#e24b4a;}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace;}
+  .r1{background:var(--r1bg);color:var(--r1t);border:0.5px solid var(--r1);}
+  .r2{background:var(--r2bg);color:var(--r2t);border:0.5px solid var(--r2);}
+  .r3{background:var(--r3bg);color:var(--r3t);border:0.5px solid var(--r3);}
+  .r4{background:var(--r4bg);color:var(--r4t);border:0.5px solid var(--r4);}
+  .r5{background:var(--r5bg);color:var(--r5t);border:0.5px solid var(--r5);}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  th{text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;border-bottom:0.5px solid var(--border);}
+  td{padding:10px 10px;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  .pts-val{font-family:'DM Mono',monospace;font-weight:500;color:var(--accent);}
+  .ronda-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--border);}
+  .ronda-row:last-child{border-bottom:none;}
+  .ronda-lbl{width:180px;flex-shrink:0;display:flex;align-items:center;gap:6px;font-size:13px;}
+  .mult-tag{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent3);background:rgba(240,160,74,0.1);border:0.5px solid var(--accent3);border-radius:4px;padding:1px 5px;}
+  .parse-input{font-family:'DM Mono',monospace;font-size:15px;letter-spacing:0.02em;}
+  .parse-preview{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px;}
+  .parse-pill{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:8px 6px;text-align:center;}
+  .parse-pill .p-label{font-size:10px;color:var(--muted);margin-bottom:3px;}
+  .parse-pill .p-pts{font-size:16px;font-weight:600;font-family:'DM Mono',monospace;color:var(--accent);}
+  .parse-pill .p-lugar{font-size:10px;color:var(--hint);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .parse-total{font-family:'DM Mono',monospace;font-size:14px;color:var(--muted);margin-top:8px;text-align:right;}
+  .parse-total span{color:var(--accent);font-size:18px;font-weight:600;}
+  .jornada-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:8px;}
+  .jornada-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .jornada-name{font-weight:700;font-size:15px;}
+  .jornada-total{font-family:'DM Mono',monospace;font-size:18px;font-weight:600;color:var(--accent);}
+  .mini-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;}
+  .mini-cell{background:var(--bg2);border-radius:6px;padding:5px 4px;text-align:center;}
+  .mini-pts{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;}
+  .mini-lugar{font-size:10px;color:var(--hint);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .step{display:flex;align-items:center;gap:8px;margin-bottom:1rem;}
+  .step-num{width:24px;height:24px;border-radius:50%;background:var(--bg3);border:0.5px solid var(--border2);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+  .step-num.done{background:rgba(200,240,74,0.15);border-color:var(--accent);color:var(--accent);}
+  .step-title{font-size:14px;font-weight:600;}
+  .lugar-confirmed{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .lugar-pill{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:0.5px solid var(--border2);border-radius:6px;padding:4px 10px;font-size:12px;}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:1rem;}
+  .stat-box{background:var(--bg3);border-radius:var(--radius-sm);padding:0.75rem;}
+  .stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;}
+  .stat-val{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--accent);}
+  .section-div{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin:1.25rem 0 0.6rem;border-bottom:0.5px solid var(--border);padding-bottom:6px;}
+  .pais-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:8px;}
+  .pais-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .pais-name{font-weight:700;font-size:15px;flex:1;}
+  .leader{background:rgba(240,160,74,0.15);color:var(--accent3);border:0.5px solid var(--accent3);padding:1px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-left:6px;}
+  .empty{text-align:center;padding:2.5rem 1rem;color:var(--hint);font-size:14px;}
+  .empty i{font-size:32px;display:block;margin-bottom:8px;}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#0f0f11;padding:10px 18px;border-radius:var(--radius);font-size:13px;font-weight:700;opacity:0;transform:translateY(10px);transition:all 0.2s;pointer-events:none;z-index:9999;}
+  .toast.show{opacity:1;transform:translateY(0);}
+  .loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:9998;transition:opacity 0.3s;}
+  .loading-overlay.hidden{opacity:0;pointer-events:none;}
+  .loading-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-text{font-size:14px;color:var(--muted);font-family:'DM Mono',monospace;}
+  @media(max-width:500px){.app{padding:1rem 0.75rem 3rem;}.ronda-lbl{width:130px;}.header{flex-direction:column;align-items:flex-start;gap:8px;}}
 </style>
 </head>
 <body>
-
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">conectando...</div>
+</div>
 <div class="app">
   <div class="header">
-    <h1><i class="ti ti-map-pin pin"></i>Maptap</h1>
-    <p>tracker semanal del grupo</p>
+    <div>
+      <h1><i class="ti ti-map-pin pin"></i>Maptap</h1>
+      <p>tracker semanal del grupo</p>
+    </div>
+    <div class="sync-status">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-label">desconectado</span>
+    </div>
   </div>
 
   <div class="card">
@@ -202,13 +147,9 @@
     <button class="tab" onclick="showTab('jugador',this)"><i class="ti ti-user"></i>Por jugador</button>
   </div>
 
-  <!-- CARGA -->
   <div id="tab-carga" class="panel active">
     <div class="card">
-      <div class="step">
-        <div class="step-num" id="step1-num">1</div>
-        <div class="step-title">Día y lugares</div>
-      </div>
+      <div class="step"><div class="step-num" id="step1-num">1</div><div class="step-title">Día y lugares</div></div>
       <div class="dias" id="dias-chips"></div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Los 5 lugares del día, en orden de ronda</div>
       <div id="lugares-inputs"></div>
@@ -218,26 +159,18 @@
         <div class="lugar-confirmed" id="lugares-pills"></div>
       </div>
     </div>
-
     <div class="card">
-      <div class="step">
-        <div class="step-num" id="step2-num">2</div>
-        <div class="step-title">Puntajes por jugador</div>
-      </div>
+      <div class="step"><div class="step-num" id="step2-num">2</div><div class="step-title">Puntajes por jugador</div></div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Formato: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--accent);">97🔥 97🔥 95🏆 95🏅 70🙃</code></div>
-      <div class="row">
-        <select id="sel-player"><option value="">Jugador...</option></select>
-      </div>
+      <div class="row"><select id="sel-player"><option value="">Jugador...</option></select></div>
       <input type="text" id="puntaje-input" class="parse-input" placeholder="97🔥 97🔥 95🏆 95🏅 70🙃" oninput="previewPuntaje()" />
       <div id="parse-preview" class="parse-preview"></div>
       <div id="parse-total" class="parse-total"></div>
       <button class="primary" onclick="guardarPuntaje()" style="margin-top:12px;width:100%;"><i class="ti ti-device-floppy"></i>Guardar</button>
     </div>
-
     <div id="resumen-dia-hoy"></div>
   </div>
 
-  <!-- SEMANAL -->
   <div id="tab-semanal" class="panel">
     <div class="card">
       <div class="card-title"><i class="ti ti-trophy"></i>Tabla de la semana</div>
@@ -245,13 +178,11 @@
     </div>
   </div>
 
-  <!-- POR PAIS -->
   <div id="tab-paises" class="panel">
     <div class="dias" id="dias-paises"></div>
     <div id="paises-content"></div>
   </div>
 
-  <!-- POR JUGADOR -->
   <div id="tab-jugador" class="panel">
     <div style="margin-bottom:1rem;">
       <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Seleccioná un jugador</div>
@@ -260,390 +191,268 @@
     <div id="resumen-jugador"></div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
-<script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC2EeYWqsx_jJJ5O2VJBDz8UgUG5QxKGgg",
+  authDomain: "maptap-virgoneta.firebaseapp.com",
+  databaseURL: "https://maptap-virgoneta-default-rtdb.firebaseio.com",
+  projectId: "maptap-virgoneta",
+  storageBucket: "maptap-virgoneta.firebasestorage.app",
+  messagingSenderId: "250802247460",
+  appId: "1:250802247460:web:9f2fc545b148e11619c5b1"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const RONDAS = [
-  { label:'R1', mult:1, cls:'r1', multLabel:'Sin mult.' },
-  { label:'R2', mult:1, cls:'r2', multLabel:'Sin mult.' },
-  { label:'R3', mult:2, cls:'r3', multLabel:'x2' },
-  { label:'R4', mult:3, cls:'r4', multLabel:'x3' },
-  { label:'R5', mult:3, cls:'r5', multLabel:'x3' },
+  {label:'R1',mult:1,cls:'r1',multLabel:'Sin mult.'},
+  {label:'R2',mult:1,cls:'r2',multLabel:'Sin mult.'},
+  {label:'R3',mult:2,cls:'r3',multLabel:'x2'},
+  {label:'R4',mult:3,cls:'r4',multLabel:'x3'},
+  {label:'R5',mult:3,cls:'r5',multLabel:'x3'},
 ];
 
-let players = [];
-let diasData = {};
-let selectedDay = 'Lunes';
-let selectedPaisesDay = 'Lunes';
-let selectedResumenPlayer = null;
+let players=[], diasData={}, selectedDay='Lunes', selectedPaisesDay='Lunes', selectedResumenPlayer=null;
 
-function save() {
-  localStorage.setItem('maptap_players', JSON.stringify(players));
-  localStorage.setItem('maptap_diasData', JSON.stringify(diasData));
+function setSyncStatus(s){
+  const dot=document.getElementById('sync-dot'), lbl=document.getElementById('sync-label');
+  dot.className='sync-dot '+(s||'');
+  lbl.textContent=s==='connected'?'en línea':s==='syncing'?'guardando...':'desconectado';
 }
-
-function load() {
-  try {
-    const p = localStorage.getItem('maptap_players');
-    const d = localStorage.getItem('maptap_diasData');
-    if (p) players = JSON.parse(p);
-    if (d) diasData = JSON.parse(d);
-  } catch(e) {}
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2200);
 }
-
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2000);
-}
-
-function getDia(d) {
-  if (!diasData[d]) diasData[d] = { lugares: ['','','','',''], jornadas: [] };
+function getDia(d){
+  if(!diasData[d]) diasData[d]={lugares:['','','','',''],jornadas:[]};
+  if(!diasData[d].lugares) diasData[d].lugares=['','','','',''];
+  if(!diasData[d].jornadas) diasData[d].jornadas=[];
   return diasData[d];
 }
-
-function init() {
-  load();
-  renderDias();
-  renderDiasPaises();
-  renderLugaresInputs();
-  renderPlayerList();
-  updateSelects();
-  renderAll();
-  checkLugaresConfirmados();
+async function saveDB(){
+  setSyncStatus('syncing');
+  try{ await set(ref(db,'maptap'),{players,diasData}); setSyncStatus('connected'); }
+  catch(e){ setSyncStatus(''); toast('Error al guardar ⚠️'); }
 }
 
-function renderDias() {
-  document.getElementById('dias-chips').innerHTML = DIAS.map(d =>
-    `<div class="dia-chip${d===selectedDay?' sel':''}" onclick="selectDay('${d}')">${d}</div>`
-  ).join('');
+function initFirebase(){
+  onValue(ref(db,'maptap'),(snap)=>{
+    const data=snap.val();
+    if(data){ players=data.players||[]; diasData=data.diasData||{}; }
+    document.getElementById('loading-overlay').classList.add('hidden');
+    setSyncStatus('connected');
+    renderPlayerList(); updateSelects();
+    renderDias(); renderDiasPaises();
+    renderLugaresInputs(); checkLugaresConfirmados();
+    renderAll();
+  },(err)=>{ setSyncStatus(''); document.getElementById('loading-overlay').classList.add('hidden'); toast('Error de conexión ⚠️'); });
 }
 
-function renderDiasPaises() {
-  document.getElementById('dias-paises').innerHTML = DIAS.map(d =>
-    `<div class="dia-chip${d===selectedPaisesDay?' sel':''}" onclick="selectDiaPaises('${d}')">${d}</div>`
-  ).join('');
+function renderDias(){
+  document.getElementById('dias-chips').innerHTML=DIAS.map(d=>
+    `<div class="dia-chip${d===selectedDay?' sel':''}" onclick="selectDay('${d}')">${d}</div>`).join('');
 }
-
-function selectDay(d) {
-  selectedDay = d;
-  renderDias();
-  renderLugaresInputs();
-  checkLugaresConfirmados();
-  renderResumenDiaHoy();
+function renderDiasPaises(){
+  document.getElementById('dias-paises').innerHTML=DIAS.map(d=>
+    `<div class="dia-chip${d===selectedPaisesDay?' sel':''}" onclick="selectDiaPaises('${d}')">${d}</div>`).join('');
 }
+window.selectDay=function(d){ selectedDay=d; renderDias(); renderLugaresInputs(); checkLugaresConfirmados(); renderResumenDiaHoy(); };
+window.selectDiaPaises=function(d){ selectedPaisesDay=d; renderDiasPaises(); renderPaises(); };
 
-function selectDiaPaises(d) {
-  selectedPaisesDay = d;
-  renderDiasPaises();
-  renderPaises();
-}
-
-function renderLugaresInputs() {
-  const dia = getDia(selectedDay);
-  document.getElementById('lugares-inputs').innerHTML = RONDAS.map((r,i) =>
+function renderLugaresInputs(){
+  const dia=getDia(selectedDay);
+  document.getElementById('lugares-inputs').innerHTML=RONDAS.map((r,i)=>
     `<div class="ronda-row">
-      <div class="ronda-lbl">
-        <span class="badge ${r.cls}">${r.label}</span>
-        ${r.mult>1?`<span class="mult-tag">${r.multLabel}</span>`:`<span style="font-size:11px;color:var(--hint);">${r.multLabel}</span>`}
-      </div>
+      <div class="ronda-lbl"><span class="badge ${r.cls}">${r.label}</span>
+      ${r.mult>1?`<span class="mult-tag">${r.multLabel}</span>`:`<span style="font-size:11px;color:var(--hint);">${r.multLabel}</span>`}</div>
       <input type="text" id="lugar-${i}" placeholder="País / lugar..." value="${dia.lugares[i]||''}" style="font-size:13px;" />
-    </div>`
-  ).join('');
+    </div>`).join('');
 }
-
-function guardarLugares() {
-  const dia = getDia(selectedDay);
-  RONDAS.forEach((r,i) => { dia.lugares[i] = document.getElementById('lugar-'+i).value.trim(); });
-  save();
-  checkLugaresConfirmados();
-  updateStepIndicators();
-  toast('Lugares guardados ✓');
-}
-
-function checkLugaresConfirmados() {
-  const dia = getDia(selectedDay);
-  const hasLugares = dia.lugares.some(l=>l);
-  const el = document.getElementById('lugares-confirmados');
-  const pillsEl = document.getElementById('lugares-pills');
-  if (hasLugares) {
-    el.style.display = 'block';
-    pillsEl.innerHTML = dia.lugares.map((l,i) =>
-      l ? `<span class="lugar-pill"><span class="badge ${RONDAS[i].cls}" style="font-size:10px;">${RONDAS[i].label}</span>${l}</span>` : ''
+window.guardarLugares=async function(){
+  const dia=getDia(selectedDay);
+  RONDAS.forEach((r,i)=>{ dia.lugares[i]=document.getElementById('lugar-'+i).value.trim(); });
+  await saveDB(); checkLugaresConfirmados(); updateStepIndicators(); toast('Lugares guardados ✓');
+};
+function checkLugaresConfirmados(){
+  const dia=getDia(selectedDay), has=dia.lugares&&dia.lugares.some(l=>l);
+  const el=document.getElementById('lugares-confirmados');
+  if(has){
+    el.style.display='block';
+    document.getElementById('lugares-pills').innerHTML=dia.lugares.map((l,i)=>
+      l?`<span class="lugar-pill"><span class="badge ${RONDAS[i].cls}" style="font-size:10px;">${RONDAS[i].label}</span>${l}</span>`:''
     ).join('');
-  } else {
-    el.style.display = 'none';
-  }
+  } else { el.style.display='none'; }
   updateStepIndicators();
 }
-
-function updateStepIndicators() {
-  const dia = getDia(selectedDay);
-  const ok = dia.lugares.some(l=>l);
-  const s1 = document.getElementById('step1-num');
-  const s2 = document.getElementById('step2-num');
-  if (ok) {
-    s1.classList.add('done'); s1.innerHTML = '<i class="ti ti-check" style="font-size:12px;"></i>';
-    s2.classList.add('done');
-  } else {
-    s1.classList.remove('done'); s1.textContent = '1';
-    s2.classList.remove('done');
-  }
+function updateStepIndicators(){
+  const ok=getDia(selectedDay).lugares&&getDia(selectedDay).lugares.some(l=>l);
+  const s1=document.getElementById('step1-num'), s2=document.getElementById('step2-num');
+  if(ok){ s1.classList.add('done'); s1.innerHTML='<i class="ti ti-check" style="font-size:12px;"></i>'; s2.classList.add('done'); }
+  else{ s1.classList.remove('done'); s1.textContent='1'; s2.classList.remove('done'); }
 }
-
-function parsePuntajes(str) {
-  return str.trim().split(/\s+/).map(t => { const m = t.match(/^(\d+)/); return m ? parseInt(m[1]) : null; }).filter(v=>v!==null);
-}
-
-function previewPuntaje() {
-  const str = document.getElementById('puntaje-input').value;
-  const pts = parsePuntajes(str);
-  const dia = getDia(selectedDay);
-  const prev = document.getElementById('parse-preview');
-  const tot = document.getElementById('parse-total');
-  if (!pts.length) { prev.innerHTML=''; tot.innerHTML=''; return; }
-  let total = 0;
-  prev.innerHTML = RONDAS.map((r,i) => {
-    const p = pts[i] || 0;
-    const f = p * r.mult;
-    total += f;
-    return `<div class="parse-pill">
-      <div class="p-label"><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
-      <div class="p-pts">${f}</div>
-      <div class="p-lugar">${dia.lugares[i]||'—'}</div>
-    </div>`;
+function parsePuntajes(str){ return str.trim().split(/\s+/).map(t=>{const m=t.match(/^(\d+)/);return m?parseInt(m[1]):null;}).filter(v=>v!==null); }
+window.previewPuntaje=function(){
+  const str=document.getElementById('puntaje-input').value, pts=parsePuntajes(str), dia=getDia(selectedDay);
+  const prev=document.getElementById('parse-preview'), tot=document.getElementById('parse-total');
+  if(!pts.length){prev.innerHTML='';tot.innerHTML='';return;}
+  let total=0;
+  prev.innerHTML=RONDAS.map((r,i)=>{ const p=pts[i]||0,f=p*r.mult; total+=f;
+    return `<div class="parse-pill"><div class="p-label"><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div><div class="p-pts">${f}</div><div class="p-lugar">${(dia.lugares&&dia.lugares[i])||'—'}</div></div>`;
   }).join('');
-  tot.innerHTML = `Total: <span>${total} pts</span>`;
-}
-
-function guardarPuntaje() {
-  const player = document.getElementById('sel-player').value;
-  const str = document.getElementById('puntaje-input').value;
-  if (!player || !str.trim()) return;
-  const pts = parsePuntajes(str);
-  if (!pts.length) return;
-  const dia = getDia(selectedDay);
-  const rondas = RONDAS.map((r,i) => ({
-    label:r.label, mult:r.mult, cls:r.cls, multLabel:r.multLabel,
-    lugar: dia.lugares[i]||'',
-    ptsBase: pts[i]||0,
-    ptsFinales: (pts[i]||0)*r.mult,
-    emoji: (str.trim().split(/\s+/)[i]||'').replace(/\d+/g,'').trim()
+  tot.innerHTML=`Total: <span>${total} pts</span>`;
+};
+window.guardarPuntaje=async function(){
+  const player=document.getElementById('sel-player').value, str=document.getElementById('puntaje-input').value;
+  if(!player||!str.trim()) return;
+  const pts=parsePuntajes(str); if(!pts.length) return;
+  const dia=getDia(selectedDay);
+  const rondas=RONDAS.map((r,i)=>({
+    label:r.label,mult:r.mult,cls:r.cls,multLabel:r.multLabel,
+    lugar:(dia.lugares&&dia.lugares[i])||'',
+    ptsBase:pts[i]||0, ptsFinales:(pts[i]||0)*r.mult,
+    emoji:(str.trim().split(/\s+/)[i]||'').replace(/\d+/g,'').trim()
   }));
-  const total = rondas.reduce((s,r)=>s+r.ptsFinales,0);
-  dia.jornadas = dia.jornadas.filter(j=>j.player!==player);
-  dia.jornadas.push({ player, day:selectedDay, rondas, total, id:Date.now() });
-  save();
+  const total=rondas.reduce((s,r)=>s+r.ptsFinales,0);
+  dia.jornadas=(dia.jornadas||[]).filter(j=>j.player!==player);
+  dia.jornadas.push({player,day:selectedDay,rondas,total,id:Date.now()});
+  await saveDB();
   document.getElementById('puntaje-input').value='';
   document.getElementById('parse-preview').innerHTML='';
   document.getElementById('parse-total').innerHTML='';
-  renderAll();
-  toast(`${player} guardado ✓`);
-}
-
-function removeJornada(player, day) {
-  getDia(day).jornadas = getDia(day).jornadas.filter(j=>j.player!==player);
-  save();
-  renderAll();
-}
-
-function renderResumenDiaHoy() {
-  const el = document.getElementById('resumen-dia-hoy');
-  const dia = getDia(selectedDay);
-  if (!dia.jornadas.length) { el.innerHTML=''; return; }
-  const sorted = [...dia.jornadas].sort((a,b)=>b.total-a.total);
-  el.innerHTML = `<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Resultados del ${selectedDay}</div>` +
-    sorted.map((j,idx) => `
-      <div class="jornada-card">
-        <div class="jornada-header">
-          <span class="jornada-name">${idx===0?'🥇 ':''}${j.player}</span>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span class="jornada-total">${j.total}</span>
-            <button class="danger" onclick="removeJornada('${j.player}','${j.day}')" style="padding:5px 8px;"><i class="ti ti-trash"></i></button>
-          </div>
+  renderAll(); toast(`${player} guardado ✓`);
+};
+window.removeJornada=async function(player,day){
+  getDia(day).jornadas=(getDia(day).jornadas||[]).filter(j=>j.player!==player);
+  await saveDB(); renderAll();
+};
+function renderResumenDiaHoy(){
+  const el=document.getElementById('resumen-dia-hoy'), jornadas=(getDia(selectedDay).jornadas||[]);
+  if(!jornadas.length){el.innerHTML='';return;}
+  const sorted=[...jornadas].sort((a,b)=>b.total-a.total);
+  el.innerHTML=`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Resultados del ${selectedDay}</div>`+
+    sorted.map((j,idx)=>`<div class="jornada-card">
+      <div class="jornada-header">
+        <span class="jornada-name">${idx===0?'🥇 ':''}${j.player}</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="jornada-total">${j.total}</span>
+          <button class="danger" onclick="removeJornada('${j.player}','${j.day}')" style="padding:5px 8px;"><i class="ti ti-trash"></i></button>
         </div>
-        <div class="mini-grid">
-          ${j.rondas.map(r=>`<div class="mini-cell">
-            <div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
-            <div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div>
-            <div class="mini-lugar">${r.lugar||'—'}</div>
-          </div>`).join('')}
-        </div>
-      </div>`
-    ).join('');
+      </div>
+      <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell">
+        <div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
+        <div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div>
+        <div class="mini-lugar">${r.lugar||'—'}</div>
+      </div>`).join('')}</div>
+    </div>`).join('');
 }
-
-function renderTablasSemanal() {
-  const el = document.getElementById('tabla-semanal');
-  if (!players.length) { el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Agregá jugadores primero</div>'; return; }
-  const totals = players.map(p => {
-    let total=0;
-    DIAS.forEach(d=>getDia(d).jornadas.filter(j=>j.player===p).forEach(j=>total+=j.total));
-    const dias = DIAS.reduce((s,d)=>s+getDia(d).jornadas.filter(j=>j.player===p).length,0);
-    return { name:p, total, dias };
+function renderTablasSemanal(){
+  const el=document.getElementById('tabla-semanal');
+  if(!players.length){el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Agregá jugadores primero</div>';return;}
+  const totals=players.map(p=>{
+    let total=0; DIAS.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
+    const dias=DIAS.reduce((s,d)=>s+(getDia(d).jornadas||[]).filter(j=>j.player===p).length,0);
+    return {name:p,total,dias};
   }).sort((a,b)=>b.total-a.total);
-  el.innerHTML = `<table><thead><tr><th style="width:30px;">#</th><th>Jugador</th><th>Días</th><th style="text-align:right;">Total</th></tr></thead><tbody>
-    ${totals.map((t,i)=>`<tr>
+  el.innerHTML=`<table><thead><tr><th style="width:30px;">#</th><th>Jugador</th><th>Días</th><th style="text-align:right;">Total</th></tr></thead><tbody>`+
+    totals.map((t,i)=>`<tr>
       <td style="color:var(--muted);">${i===0&&t.total>0?'🥇':i===1&&t.total>0?'🥈':i===2&&t.total>0?'🥉':i+1}</td>
       <td style="font-weight:700;">${t.name}${i===0&&t.total>0?'<span class="leader">líder</span>':''}</td>
       <td style="color:var(--muted);font-family:'DM Mono',monospace;">${t.dias}</td>
       <td style="text-align:right;" class="pts-val">${t.total}</td>
-    </tr>`).join('')}
-  </tbody></table>`;
+    </tr>`).join('')+`</tbody></table>`;
 }
-
-function renderPaises() {
-  const el = document.getElementById('paises-content');
-  const dia = getDia(selectedPaisesDay);
-  if (!dia.jornadas.length || !dia.lugares.some(l=>l)) {
-    el.innerHTML='<div class="empty"><i class="ti ti-flag"></i>Sin datos para este día</div>'; return;
-  }
-  el.innerHTML = RONDAS.map((r,i) => {
-    const lugar = dia.lugares[i];
-    if (!lugar) return '';
-    const res = dia.jornadas.map(j=>({ player:j.player, pts:j.rondas[i].ptsFinales, ptsBase:j.rondas[i].ptsBase, emoji:j.rondas[i].emoji }))
-      .sort((a,b)=>b.pts-a.pts);
-    const max = res[0]?.pts||0;
-    return `<div class="pais-card">
-      <div class="pais-header">
-        <span class="badge ${r.cls}">${r.label}</span>
-        <span class="pais-name">${lugar}</span>
-        <span style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;">${r.multLabel}</span>
-      </div>
-      <table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="text-align:right;">Base</th><th style="text-align:right;">Final</th></tr></thead><tbody>
-        ${res.map((v,idx)=>`<tr>
-          <td style="color:var(--muted);">${idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':idx+1}</td>
-          <td>${v.player} <span style="font-size:14px;">${v.emoji}</span></td>
-          <td style="text-align:right;color:var(--muted);font-family:'DM Mono',monospace;">${v.ptsBase}</td>
-          <td style="text-align:right;" class="${v.pts===max?'pts-val':''}" style="font-family:'DM Mono',monospace;">${v.pts}</td>
-        </tr>`).join('')}
-      </tbody></table>
-    </div>`;
+function renderPaises(){
+  const el=document.getElementById('paises-content'), dia=getDia(selectedPaisesDay), jornadas=dia.jornadas||[];
+  if(!jornadas.length||!dia.lugares||!dia.lugares.some(l=>l)){el.innerHTML='<div class="empty"><i class="ti ti-flag"></i>Sin datos para este día</div>';return;}
+  el.innerHTML=RONDAS.map((r,i)=>{
+    const lugar=dia.lugares[i]; if(!lugar) return '';
+    const res=jornadas.map(j=>({player:j.player,pts:j.rondas[i].ptsFinales,ptsBase:j.rondas[i].ptsBase,emoji:j.rondas[i].emoji})).sort((a,b)=>b.pts-a.pts);
+    const max=res[0]?.pts||0;
+    return `<div class="pais-card"><div class="pais-header"><span class="badge ${r.cls}">${r.label}</span><span class="pais-name">${lugar}</span><span style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;">${r.multLabel}</span></div>
+      <table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="text-align:right;">Base</th><th style="text-align:right;">Final</th></tr></thead><tbody>`+
+      res.map((v,idx)=>`<tr>
+        <td style="color:var(--muted);">${idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':idx+1}</td>
+        <td>${v.player} <span style="font-size:14px;">${v.emoji}</span></td>
+        <td style="text-align:right;color:var(--muted);font-family:'DM Mono',monospace;">${v.ptsBase}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;" class="${v.pts===max?'pts-val':''}">${v.pts}</td>
+      </tr>`).join('')+`</tbody></table></div>`;
   }).join('');
 }
-
-function selectResumenPlayer(p) {
-  selectedResumenPlayer = p;
-  renderJugadorSelector();
-  renderResumenJugador();
+window.selectResumenPlayer=function(p){ selectedResumenPlayer=p; renderJugadorSelector(); renderResumenJugador(); };
+function renderJugadorSelector(){
+  document.getElementById('jugador-selector').innerHTML=players.map(p=>
+    `<span class="player-chip${selectedResumenPlayer===p?' sel':''}" onclick="selectResumenPlayer('${p}')">${p}</span>`).join('');
 }
-
-function renderJugadorSelector() {
-  document.getElementById('jugador-selector').innerHTML = players.map(p =>
-    `<span class="player-chip${selectedResumenPlayer===p?' sel':''}" onclick="selectResumenPlayer('${p}')">${p}</span>`
-  ).join('');
+function renderResumenJugador(){
+  const el=document.getElementById('resumen-jugador');
+  if(!selectedResumenPlayer){el.innerHTML='<div class="empty"><i class="ti ti-user"></i>Seleccioná un jugador</div>';return;}
+  const all=DIAS.flatMap(d=>(getDia(d).jornadas||[]).filter(j=>j.player===selectedResumenPlayer));
+  if(!all.length){el.innerHTML='<div class="empty">Sin datos cargados</div>';return;}
+  const total=all.reduce((s,j)=>s+j.total,0), mejor=all.reduce((b,j)=>j.total>b.total?j:b,all[0]);
+  const byLugar={};
+  all.forEach(j=>j.rondas.forEach(r=>{ if(!r.lugar) return; if(!byLugar[r.lugar]) byLugar[r.lugar]=[]; byLugar[r.lugar].push({day:j.day,pts:r.ptsFinales,ptsBase:r.ptsBase,label:r.label,cls:r.cls,emoji:r.emoji}); }));
+  el.innerHTML=`<div class="stats-grid">
+    <div class="stat-box"><div class="stat-lbl">Total</div><div class="stat-val">${total}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Mejor día</div><div class="stat-val">${mejor.total}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Días</div><div class="stat-val">${all.length}</div></div>
+  </div>
+  <div class="section-div">Por lugar</div>`+
+  Object.entries(byLugar).sort((a,b)=>b[1].reduce((s,r)=>s+r.pts,0)-a[1].reduce((s,r)=>s+r.pts,0)).map(([lugar,rs])=>{
+    const lt=rs.reduce((s,r)=>s+r.pts,0);
+    return `<div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-weight:700;">${lugar}</span><span class="pts-val">${lt}</span></div>`+
+      rs.map(r=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:0.5px solid var(--border);">
+        <span><span class="badge ${r.cls}" style="margin-right:5px;">${r.label} — ${r.day}</span><span style="font-size:14px;">${r.emoji}</span></span>
+        <span style="font-family:'DM Mono',monospace;color:var(--accent);">${r.pts}</span>
+      </div>`).join('')+`</div>`;
+  }).join('')+
+  `<div class="section-div">Por día</div>`+
+  all.sort((a,b)=>DIAS.indexOf(a.day)-DIAS.indexOf(b.day)).map(j=>`<div class="card" style="margin-bottom:8px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-weight:700;">${j.day}</span><span class="pts-val">${j.total}</span></div>
+    <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell"><div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div><div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div><div class="mini-lugar">${r.lugar||'—'}</div></div>`).join('')}</div>
+  </div>`).join('');
 }
-
-function renderResumenJugador() {
-  const el = document.getElementById('resumen-jugador');
-  if (!selectedResumenPlayer) { el.innerHTML='<div class="empty"><i class="ti ti-user"></i>Seleccioná un jugador</div>'; return; }
-  const all = DIAS.flatMap(d=>getDia(d).jornadas.filter(j=>j.player===selectedResumenPlayer));
-  if (!all.length) { el.innerHTML='<div class="empty">Sin datos cargados</div>'; return; }
-  const total = all.reduce((s,j)=>s+j.total,0);
-  const mejor = all.reduce((b,j)=>j.total>b.total?j:b,all[0]);
-  const byLugar = {};
-  all.forEach(j=>j.rondas.forEach(r=>{
-    if (!r.lugar) return;
-    if (!byLugar[r.lugar]) byLugar[r.lugar]=[];
-    byLugar[r.lugar].push({ day:j.day, pts:r.ptsFinales, ptsBase:r.ptsBase, label:r.label, cls:r.cls, emoji:r.emoji });
-  }));
-
-  el.innerHTML = `
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-lbl">Total</div><div class="stat-val">${total}</div></div>
-      <div class="stat-box"><div class="stat-lbl">Mejor día</div><div class="stat-val">${mejor.total}</div></div>
-      <div class="stat-box"><div class="stat-lbl">Días</div><div class="stat-val">${all.length}</div></div>
-    </div>
-    <div class="section-div">Por lugar</div>
-    ${Object.entries(byLugar).sort((a,b)=>b[1].reduce((s,r)=>s+r.pts,0)-a[1].reduce((s,r)=>s+r.pts,0)).map(([lugar,rs])=>{
-      const lt=rs.reduce((s,r)=>s+r.pts,0);
-      return `<div class="card" style="margin-bottom:8px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <span style="font-weight:700;">${lugar}</span>
-          <span class="pts-val">${lt}</span>
-        </div>
-        ${rs.map(r=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:0.5px solid var(--border);">
-          <span><span class="badge ${r.cls}" style="margin-right:5px;">${r.label} — ${r.day}</span><span style="font-size:14px;">${r.emoji}</span></span>
-          <span style="font-family:'DM Mono',monospace;color:var(--accent);">${r.pts}</span>
-        </div>`).join('')}
-      </div>`;
-    }).join('')}
-    <div class="section-div">Por día</div>
-    ${all.sort((a,b)=>DIAS.indexOf(a.day)-DIAS.indexOf(b.day)).map(j=>`
-      <div class="card" style="margin-bottom:8px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <span style="font-weight:700;">${j.day}</span>
-          <span class="pts-val">${j.total}</span>
-        </div>
-        <div class="mini-grid">
-          ${j.rondas.map(r=>`<div class="mini-cell">
-            <div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
-            <div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div>
-            <div class="mini-lugar">${r.lugar||'—'}</div>
-          </div>`).join('')}
-        </div>
-      </div>`).join('')}`;
+window.addPlayer=async function(){
+  const inp=document.getElementById('player-input'), name=inp.value.trim();
+  if(!name||players.includes(name)) return;
+  players.push(name); inp.value='';
+  await saveDB(); renderPlayerList(); updateSelects(); renderAll();
+};
+window.removePlayer=async function(name){
+  if(!confirm(`¿Eliminar a ${name} y todos sus datos?`)) return;
+  players=players.filter(p=>p!==name);
+  DIAS.forEach(d=>{ getDia(d).jornadas=(getDia(d).jornadas||[]).filter(j=>j.player!==name); });
+  if(selectedResumenPlayer===name) selectedResumenPlayer=null;
+  await saveDB(); renderPlayerList(); updateSelects(); renderAll();
+};
+function renderPlayerList(){
+  const el=document.getElementById('player-list');
+  if(!players.length){el.innerHTML='<span style="font-size:13px;color:var(--hint);">Ningún jugador aún</span>';return;}
+  el.innerHTML=players.map(p=>`<span class="player-chip sel">${p}<span class="x" onclick="removePlayer('${p}')"><i class="ti ti-x" style="font-size:12px;"></i></span></span>`).join('');
 }
-
-function addPlayer() {
-  const inp = document.getElementById('player-input');
-  const name = inp.value.trim();
-  if (!name || players.includes(name)) return;
-  players.push(name);
-  inp.value='';
-  save();
-  renderPlayerList();
-  updateSelects();
-  renderAll();
-}
-
-function removePlayer(name) {
-  if (!confirm(`¿Eliminar a ${name} y todos sus datos?`)) return;
-  players = players.filter(p=>p!==name);
-  DIAS.forEach(d=>{ getDia(d).jornadas=getDia(d).jornadas.filter(j=>j.player!==name); });
-  if (selectedResumenPlayer===name) selectedResumenPlayer=null;
-  save();
-  renderPlayerList();
-  updateSelects();
-  renderAll();
-}
-
-function renderPlayerList() {
-  const el = document.getElementById('player-list');
-  if (!players.length) { el.innerHTML='<span style="font-size:13px;color:var(--hint);">Ningún jugador aún</span>'; return; }
-  el.innerHTML = players.map(p =>
-    `<span class="player-chip sel">${p}<span class="x" onclick="removePlayer('${p}')"><i class="ti ti-x" style="font-size:12px;"></i></span></span>`
-  ).join('');
-}
-
-function updateSelects() {
-  const sel = document.getElementById('sel-player');
-  const val = sel.value;
-  sel.innerHTML = '<option value="">Jugador...</option>' + players.map(p=>`<option value="${p}"${p===val?' selected':''}>${p}</option>`).join('');
+function updateSelects(){
+  const sel=document.getElementById('sel-player'), val=sel.value;
+  sel.innerHTML='<option value="">Jugador...</option>'+players.map(p=>`<option value="${p}"${p===val?' selected':''}>${p}</option>`).join('');
   renderJugadorSelector();
 }
-
-function renderAll() {
-  renderResumenDiaHoy();
-  renderTablasSemanal();
-  renderPaises();
-  renderResumenJugador();
-}
-
-function showTab(tab, btn) {
+function renderAll(){ renderResumenDiaHoy(); renderTablasSemanal(); renderPaises(); renderResumenJugador(); }
+window.showTab=function(tab,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-'+tab).classList.add('active');
-}
+  btn.classList.add('active'); document.getElementById('tab-'+tab).classList.add('active');
+};
+document.getElementById('player-input').addEventListener('keydown',e=>{ if(e.key==='Enter') window.addPlayer(); });
+document.getElementById('puntaje-input').addEventListener('keydown',e=>{ if(e.key==='Enter') window.guardarPuntaje(); });
 
-document.getElementById('player-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addPlayer(); });
-document.getElementById('puntaje-input').addEventListener('keydown', e=>{ if(e.key==='Enter') guardarPuntaje(); });
-
-init();
+initFirebase();
 </script>
 </body>
 </html>
+
