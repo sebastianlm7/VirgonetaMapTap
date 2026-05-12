@@ -38,7 +38,7 @@
   .panel{display:none;}.panel.active{display:block;}
   .card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
   .card-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
-  input[type=text],input[type=number],select{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;padding:9px 12px;outline:none;transition:border-color 0.15s;width:100%;}
+  input[type=text],input[type=number],input[type=password],select{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;padding:9px 12px;outline:none;transition:border-color 0.15s;width:100%;}
   input:focus,select:focus{border-color:var(--accent);}
   select option{background:var(--bg3);}
   button{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-weight:600;font-size:13px;padding:9px 16px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px;}
@@ -111,14 +111,40 @@
   .loading-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .loading-text{font-size:14px;color:var(--muted);font-family:'DM Mono',monospace;}
+  /* Lock screen */
+  .lock-overlay{position:fixed;inset:0;background:rgba(15,15,17,0.96);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:900;transition:opacity 0.2s;}
+  .lock-overlay.hidden{opacity:0;pointer-events:none;}
+  .lock-box{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);padding:2rem;width:100%;max-width:320px;text-align:center;}
+  .lock-icon{font-size:36px;color:var(--accent);margin-bottom:1rem;}
+  .lock-title{font-size:18px;font-weight:700;margin-bottom:0.25rem;}
+  .lock-sub{font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-family:'DM Mono',monospace;}
+  .lock-error{font-size:12px;color:#e24b4a;margin-top:8px;min-height:16px;}
+  /* Variacion posicion */
+  .var-up{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:#7ee8a2;}
+  .var-down{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:#e24b4a;}
+  .var-same{font-family:'DM Mono',monospace;font-size:11px;color:var(--hint);}
   @media(max-width:500px){.app{padding:1rem 0.75rem 3rem;}.ronda-lbl{width:130px;}.header{flex-direction:column;align-items:flex-start;gap:8px;}}
 </style>
 </head>
 <body>
+
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">conectando...</div>
 </div>
+
+<!-- Lock screen para Cargar día -->
+<div class="lock-overlay hidden" id="lock-overlay">
+  <div class="lock-box">
+    <div class="lock-icon"><i class="ti ti-lock"></i></div>
+    <div class="lock-title">Área de carga</div>
+    <div class="lock-sub">Ingresá la clave para continuar</div>
+    <input type="password" id="lock-input" placeholder="Clave..." style="text-align:center;font-size:18px;letter-spacing:0.15em;" />
+    <div class="lock-error" id="lock-error"></div>
+    <button class="primary" onclick="checkLock()" style="width:100%;margin-top:12px;"><i class="ti ti-arrow-right"></i>Entrar</button>
+  </div>
+</div>
+
 <div class="app">
   <div class="header">
     <div>
@@ -131,23 +157,25 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title"><i class="ti ti-users"></i>Jugadores</div>
-    <div class="row">
-      <input type="text" id="player-input" placeholder="Nombre del jugador..." />
-      <button onclick="addPlayer()" style="flex:0 0 auto;"><i class="ti ti-user-plus"></i> Agregar</button>
-    </div>
-    <div id="player-list"></div>
-  </div>
-
   <div class="tabs">
-    <button class="tab" onclick="showTab('carga',this)"><i class="ti ti-pencil"></i>Cargar día</button>
+    <button class="tab" onclick="tryShowCarga(this)"><i class="ti ti-pencil"></i>Cargar día</button>
     <button class="tab active" onclick="showTab('semanal',this)"><i class="ti ti-trophy"></i>Tabla</button>
     <button class="tab" onclick="showTab('paises',this)"><i class="ti ti-flag"></i>Por lugar</button>
     <button class="tab" onclick="showTab('jugador',this)"><i class="ti ti-user"></i>Por jugador</button>
   </div>
 
+  <!-- CARGA (solo visible con clave) -->
   <div id="tab-carga" class="panel">
+    <!-- Jugadores: solo acá -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-users"></i>Jugadores</div>
+      <div class="row">
+        <input type="text" id="player-input" placeholder="Nombre del jugador..." />
+        <button onclick="addPlayer()" style="flex:0 0 auto;"><i class="ti ti-user-plus"></i> Agregar</button>
+      </div>
+      <div id="player-list"></div>
+    </div>
+
     <div class="card">
       <div class="step"><div class="step-num" id="step1-num">1</div><div class="step-title">Día y lugares</div></div>
       <div class="dias" id="dias-chips"></div>
@@ -159,6 +187,7 @@
         <div class="lugar-confirmed" id="lugares-pills"></div>
       </div>
     </div>
+
     <div class="card">
       <div class="step"><div class="step-num" id="step2-num">2</div><div class="step-title">Puntajes por jugador</div></div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Formato: <code style="font-family:'DM Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--accent);">97🔥 97🔥 95🏆 95🏅 70🙃</code></div>
@@ -171,6 +200,7 @@
     <div id="resumen-dia-hoy"></div>
   </div>
 
+  <!-- TABLA SEMANAL -->
   <div id="tab-semanal" class="panel active">
     <div class="card">
       <div class="card-title"><i class="ti ti-trophy"></i>Tabla de la semana</div>
@@ -178,11 +208,13 @@
     </div>
   </div>
 
+  <!-- POR LUGAR -->
   <div id="tab-paises" class="panel">
     <div class="dias" id="dias-paises"></div>
     <div id="paises-content"></div>
   </div>
 
+  <!-- POR JUGADOR -->
   <div id="tab-jugador" class="panel">
     <div style="margin-bottom:1rem;">
       <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Seleccioná un jugador</div>
@@ -191,6 +223,7 @@
     <div id="resumen-jugador"></div>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -207,9 +240,7 @@ const firebaseConfig = {
   appId: "1:250802247460:web:9f2fc545b148e11619c5b1"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
+const CLAVE = "200693";
 const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const RONDAS = [
   {label:'R1',mult:1,cls:'r1',multLabel:'Sin mult.'},
@@ -219,8 +250,37 @@ const RONDAS = [
   {label:'R5',mult:3,cls:'r5',multLabel:'x3'},
 ];
 
-let players=[], diasData={}, selectedDay='Lunes', selectedPaisesDay='Lunes', selectedResumenPlayer=null;
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
+let players=[], diasData={}, selectedDay='Lunes', selectedPaisesDay='Lunes', selectedResumenPlayer=null;
+let cargaUnlocked = false;
+let pendingCargaBtn = null;
+
+// ---- LOCK ----
+window.tryShowCarga = function(btn) {
+  if(cargaUnlocked) { showTab('carga', btn); return; }
+  pendingCargaBtn = btn;
+  document.getElementById('lock-overlay').classList.remove('hidden');
+  document.getElementById('lock-input').value='';
+  document.getElementById('lock-error').textContent='';
+  setTimeout(()=>document.getElementById('lock-input').focus(), 100);
+};
+window.checkLock = function() {
+  const val = document.getElementById('lock-input').value.trim();
+  if(val === CLAVE) {
+    cargaUnlocked = true;
+    document.getElementById('lock-overlay').classList.add('hidden');
+    if(pendingCargaBtn) showTab('carga', pendingCargaBtn);
+  } else {
+    document.getElementById('lock-error').textContent = 'Clave incorrecta';
+    document.getElementById('lock-input').value='';
+    document.getElementById('lock-input').focus();
+  }
+};
+document.getElementById('lock-input').addEventListener('keydown', e=>{ if(e.key==='Enter') window.checkLock(); if(e.key==='Escape') document.getElementById('lock-overlay').classList.add('hidden'); });
+
+// ---- UTILS ----
 function setSyncStatus(s){
   const dot=document.getElementById('sync-dot'), lbl=document.getElementById('sync-label');
   dot.className='sync-dot '+(s||'');
@@ -243,6 +303,7 @@ async function saveDB(){
   catch(e){ setSyncStatus(''); toast('Error al guardar ⚠️'); }
 }
 
+// ---- FIREBASE ----
 function initFirebase(){
   onValue(ref(db,'maptap'),(snap)=>{
     const data=snap.val();
@@ -256,6 +317,7 @@ function initFirebase(){
   },(err)=>{ setSyncStatus(''); document.getElementById('loading-overlay').classList.add('hidden'); toast('Error de conexión ⚠️'); });
 }
 
+// ---- DIAS ----
 function renderDias(){
   document.getElementById('dias-chips').innerHTML=DIAS.map(d=>
     `<div class="dia-chip${d===selectedDay?' sel':''}" onclick="selectDay('${d}')">${d}</div>`).join('');
@@ -267,6 +329,7 @@ function renderDiasPaises(){
 window.selectDay=function(d){ selectedDay=d; renderDias(); renderLugaresInputs(); checkLugaresConfirmados(); renderResumenDiaHoy(); };
 window.selectDiaPaises=function(d){ selectedPaisesDay=d; renderDiasPaises(); renderPaises(); };
 
+// ---- LUGARES ----
 function renderLugaresInputs(){
   const dia=getDia(selectedDay);
   document.getElementById('lugares-inputs').innerHTML=RONDAS.map((r,i)=>
@@ -298,6 +361,8 @@ function updateStepIndicators(){
   if(ok){ s1.classList.add('done'); s1.innerHTML='<i class="ti ti-check" style="font-size:12px;"></i>'; s2.classList.add('done'); }
   else{ s1.classList.remove('done'); s1.textContent='1'; s2.classList.remove('done'); }
 }
+
+// ---- PUNTAJES ----
 function parsePuntajes(str){ return str.trim().split(/\s+/).map(t=>{const m=t.match(/^(\d+)/);return m?parseInt(m[1]):null;}).filter(v=>v!==null); }
 window.previewPuntaje=function(){
   const str=document.getElementById('puntaje-input').value, pts=parsePuntajes(str), dia=getDia(selectedDay);
@@ -333,6 +398,8 @@ window.removeJornada=async function(player,day){
   getDia(day).jornadas=(getDia(day).jornadas||[]).filter(j=>j.player!==player);
   await saveDB(); renderAll();
 };
+
+// ---- RESUMEN DIA ----
 function renderResumenDiaHoy(){
   const el=document.getElementById('resumen-dia-hoy'), jornadas=(getDia(selectedDay).jornadas||[]);
   if(!jornadas.length){el.innerHTML='';return;}
@@ -353,22 +420,64 @@ function renderResumenDiaHoy(){
       </div>`).join('')}</div>
     </div>`).join('');
 }
+
+// ---- TABLA SEMANAL CON VARIACION ----
+function getPosicionesDelDia(dia) {
+  // Retorna un objeto {player: posicion} para ese dia (1-indexed)
+  const jornadas = getDia(dia).jornadas || [];
+  if (!jornadas.length) return {};
+  const sorted = [...jornadas].sort((a,b)=>b.total-a.total);
+  const pos = {};
+  sorted.forEach((j,i) => { pos[j.player] = i+1; });
+  return pos;
+}
 function renderTablasSemanal(){
   const el=document.getElementById('tabla-semanal');
   if(!players.length){el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Agregá jugadores primero</div>';return;}
+
+  // Totales acumulados
   const totals=players.map(p=>{
     let total=0; DIAS.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
     const dias=DIAS.reduce((s,d)=>s+(getDia(d).jornadas||[]).filter(j=>j.player===p).length,0);
     return {name:p,total,dias};
   }).sort((a,b)=>b.total-a.total);
-  el.innerHTML=`<table><thead><tr><th style="width:30px;">#</th><th>Jugador</th><th>Días</th><th style="text-align:right;">Total</th></tr></thead><tbody>`+
+
+  // Posicion actual (ranking acumulado)
+  const posActual = {};
+  totals.forEach((t,i) => { posActual[t.name] = i+1; });
+
+  // Posicion de ayer (sin el dia de hoy)
+  // Encontrar el ultimo dia con datos antes del dia seleccionado
+  // Usamos los totales sin el dia actual para comparar
+  const hoyIdx = DIAS.indexOf(selectedDay);
+  const diasAnteriores = DIAS.slice(0, hoyIdx);
+  const totalsAyer = players.map(p=>{
+    let total=0;
+    diasAnteriores.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
+    return {name:p,total};
+  }).sort((a,b)=>b.total-a.total);
+  const posAyer = {};
+  totalsAyer.forEach((t,i) => { posAyer[t.name] = i+1; });
+
+  function varBadge(player) {
+    const pa = posAyer[player], pn = posActual[player];
+    if(pa === undefined || pa === pn) return `<span class="var-same">—</span>`;
+    const diff = pa - pn; // positivo = subió
+    if(diff > 0) return `<span class="var-up">▲${diff}</span>`;
+    return `<span class="var-down">▼${Math.abs(diff)}</span>`;
+  }
+
+  el.innerHTML=`<table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="width:36px;text-align:center;">±</th><th>Días</th><th style="text-align:right;">Total</th></tr></thead><tbody>`+
     totals.map((t,i)=>`<tr>
       <td style="color:var(--muted);">${i===0&&t.total>0?'🥇':i===1&&t.total>0?'🥈':i===2&&t.total>0?'🥉':i+1}</td>
       <td style="font-weight:700;">${t.name}${i===0&&t.total>0?'<span class="leader">líder</span>':''}</td>
+      <td style="text-align:center;">${varBadge(t.name)}</td>
       <td style="color:var(--muted);font-family:'DM Mono',monospace;">${t.dias}</td>
       <td style="text-align:right;" class="pts-val">${t.total}</td>
     </tr>`).join('')+`</tbody></table>`;
 }
+
+// ---- POR LUGAR ----
 function renderPaises(){
   const el=document.getElementById('paises-content'), dia=getDia(selectedPaisesDay), jornadas=dia.jornadas||[];
   if(!jornadas.length||!dia.lugares||!dia.lugares.some(l=>l)){el.innerHTML='<div class="empty"><i class="ti ti-flag"></i>Sin datos para este día</div>';return;}
@@ -386,6 +495,8 @@ function renderPaises(){
       </tr>`).join('')+`</tbody></table></div>`;
   }).join('');
 }
+
+// ---- POR JUGADOR ----
 window.selectResumenPlayer=function(p){ selectedResumenPlayer=p; renderJugadorSelector(); renderResumenJugador(); };
 function renderJugadorSelector(){
   document.getElementById('jugador-selector').innerHTML=players.map(p=>
@@ -419,6 +530,8 @@ function renderResumenJugador(){
     <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell"><div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div><div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div><div class="mini-lugar">${r.lugar||'—'}</div></div>`).join('')}</div>
   </div>`).join('');
 }
+
+// ---- JUGADORES ----
 window.addPlayer=async function(){
   const inp=document.getElementById('player-input'), name=inp.value.trim();
   if(!name||players.includes(name)) return;
@@ -443,11 +556,13 @@ function updateSelects(){
   renderJugadorSelector();
 }
 function renderAll(){ renderResumenDiaHoy(); renderTablasSemanal(); renderPaises(); renderResumenJugador(); }
+
 window.showTab=function(tab,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active'); document.getElementById('tab-'+tab).classList.add('active');
 };
+
 document.getElementById('player-input').addEventListener('keydown',e=>{ if(e.key==='Enter') window.addPlayer(); });
 document.getElementById('puntaje-input').addEventListener('keydown',e=>{ if(e.key==='Enter') window.guardarPuntaje(); });
 
