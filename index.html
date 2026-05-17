@@ -54,7 +54,7 @@
   .dias{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
   .dia-chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;}
   .dia-chip.sel{background:rgba(200,240,74,0.12);color:var(--accent);border-color:var(--accent);}
-  .dia-chip.bonus-sel{background:rgba(240,160,74,0.15);color:var(--accent3);border-color:var(--accent3);}
+  .dia-chip.-sel{background:rgba(240,160,74,0.15);color:var(--accent3);border-color:var(--accent3);}
   .dia-chip.disabled{opacity:0.4;cursor:not-allowed;}
   .player-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 12px;border-radius:20px;font-size:13px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;margin:2px;}
   .player-chip.sel{background:rgba(167,139,250,0.12);color:var(--purple);border-color:var(--purple);}
@@ -126,7 +126,7 @@
   .var-up{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--green);}
   .var-down{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--red);}
   .var-same{font-family:'DM Mono',monospace;font-size:11px;color:var(--hint);}
-  .bonus-tag{background:rgba(240,160,74,0.15);color:var(--accent3);border:0.5px solid var(--accent3);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
+  .-tag{background:rgba(240,160,74,0.15);color:var(--accent3);border:0.5px solid var(--accent3);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
   .perfect-tag{background:rgba(200,240,74,0.15);color:var(--accent);border:0.5px solid var(--accent);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
   /* Historico */
   .semana-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
@@ -175,7 +175,7 @@
   <div class="tabs">
     <button class="tab" onclick="tryShowCarga(this)"><i class="ti ti-pencil"></i>Cargar</button>
     <button class="tab active" onclick="showTab('semanal',this)"><i class="ti ti-trophy"></i>Tabla</button>
-    <button class="tab" onclick="showTab('bonus',this)"><i class="ti ti-star"></i>Bonus</button>
+    <button class="tab" style="display:none;" onclick="showTab('bonus',this)"><i class="ti ti-star"></i>Bonus</button>
     <button class="tab" onclick="showTab('paises',this)"><i class="ti ti-flag"></i>Lugares</button>
     <button class="tab" onclick="showTab('jugador',this)"><i class="ti ti-user"></i>Jugador</button>
     <button class="tab" onclick="showTab('historico',this)"><i class="ti ti-history"></i>Histórico</button>
