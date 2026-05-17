@@ -710,11 +710,13 @@ window.resetearBonus=async function(){
   renderAll();
   toast('Bonus reseteado ✓');
 };
+window.toggleBonus=async function(){
   bonusHabilitado=!bonusHabilitado;
   await saveDB();
   renderAll();
   toast(bonusHabilitado?'Bonus habilitado ✓':'Bonus bloqueado ✓');
 };
+window.revelarBonus=async function(){
   if(!confirm('¿Revelar las elecciones de todos aunque no hayan elegido todos?')) return;
   bonusRevelado=true;
   await saveDB();
