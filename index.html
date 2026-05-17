@@ -13,6 +13,7 @@
     --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
     --text:#f0eee8;--muted:#888680;--hint:#555350;
     --accent:#c8f04a;--accent3:#f0a04a;--purple:#a78bfa;
+    --red:#e24b4a;--green:#7ee8a2;
     --r1:#555350;--r1bg:#2a2925;--r1t:#b4b2a9;
     --r2:#378add;--r2bg:#0d1f33;--r2t:#85b7eb;
     --r3:#1d9e75;--r3bg:#0a211a;--r3t:#5dcaa5;
@@ -29,10 +30,10 @@
   .header p{font-size:14px;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace;}
   .sync-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
   .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--hint);transition:background 0.3s;}
-  .sync-dot.connected{background:#7ee8a2;}
+  .sync-dot.connected{background:var(--green);}
   .sync-dot.syncing{background:var(--accent3);}
   .tabs{display:flex;gap:2px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:1.5rem;overflow-x:auto;}
-  .tab{padding:8px 14px;font-size:13px;font-family:'Syne',sans-serif;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-radius:var(--radius-sm);transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+  .tab{padding:8px 12px;font-size:12px;font-family:'Syne',sans-serif;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-radius:var(--radius-sm);transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:4px;}
   .tab:hover{color:var(--text);background:var(--bg3);}
   .tab.active{background:var(--accent);color:#0f0f11;}
   .panel{display:none;}.panel.active{display:block;}
@@ -45,16 +46,20 @@
   button:hover{background:var(--bg2);border-color:var(--accent);color:var(--accent);}
   button.primary{background:var(--accent);color:#0f0f11;border-color:var(--accent);}
   button.primary:hover{background:#d8ff5a;border-color:#d8ff5a;color:#0f0f11;}
-  button.danger:hover{border-color:#e24b4a;color:#e24b4a;}
+  button.danger-btn{background:rgba(226,75,74,0.1);border-color:var(--red);color:var(--red);}
+  button.danger-btn:hover{background:rgba(226,75,74,0.2);}
+  button.danger:hover{border-color:var(--red);color:var(--red);}
   .row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
   .row input,.row select{flex:1;}
   .dias{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
   .dia-chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;}
   .dia-chip.sel{background:rgba(200,240,74,0.12);color:var(--accent);border-color:var(--accent);}
+  .dia-chip.bonus-sel{background:rgba(240,160,74,0.15);color:var(--accent3);border-color:var(--accent3);}
+  .dia-chip.disabled{opacity:0.4;cursor:not-allowed;}
   .player-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 12px;border-radius:20px;font-size:13px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;margin:2px;}
   .player-chip.sel{background:rgba(167,139,250,0.12);color:var(--purple);border-color:var(--purple);}
   .player-chip .x{font-size:14px;color:var(--hint);cursor:pointer;}
-  .player-chip .x:hover{color:#e24b4a;}
+  .player-chip .x:hover{color:var(--red);}
   .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace;}
   .r1{background:var(--r1bg);color:var(--r1t);border:0.5px solid var(--r1);}
   .r2{background:var(--r2bg);color:var(--r2t);border:0.5px solid var(--r2);}
@@ -111,18 +116,29 @@
   .loading-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .loading-text{font-size:14px;color:var(--muted);font-family:'DM Mono',monospace;}
-  /* Lock screen */
   .lock-overlay{position:fixed;inset:0;background:rgba(15,15,17,0.96);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:900;transition:opacity 0.2s;}
   .lock-overlay.hidden{opacity:0;pointer-events:none;}
   .lock-box{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);padding:2rem;width:100%;max-width:320px;text-align:center;}
   .lock-icon{font-size:36px;color:var(--accent);margin-bottom:1rem;}
   .lock-title{font-size:18px;font-weight:700;margin-bottom:0.25rem;}
   .lock-sub{font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-family:'DM Mono',monospace;}
-  .lock-error{font-size:12px;color:#e24b4a;margin-top:8px;min-height:16px;}
-  /* Variacion posicion */
-  .var-up{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:#7ee8a2;}
-  .var-down{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:#e24b4a;}
+  .lock-error{font-size:12px;color:var(--red);margin-top:8px;min-height:16px;}
+  .var-up{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--green);}
+  .var-down{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--red);}
   .var-same{font-family:'DM Mono',monospace;font-size:11px;color:var(--hint);}
+  .bonus-tag{background:rgba(240,160,74,0.15);color:var(--accent3);border:0.5px solid var(--accent3);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
+  .perfect-tag{background:rgba(200,240,74,0.15);color:var(--accent);border:0.5px solid var(--accent);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
+  /* Historico */
+  .semana-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
+  .semana-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+  .semana-titulo{font-weight:700;font-size:15px;}
+  .medalla-row{display:flex;align-items:center;gap:8px;font-size:13px;}
+  .med{font-size:16px;}
+  .medallero-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid var(--border);}
+  .medallero-row:last-child{border-bottom:none;}
+  .medallero-name{flex:1;font-weight:600;}
+  .med-counts{display:flex;gap:8px;font-family:'DM Mono',monospace;font-size:13px;}
+  .med-count{display:flex;align-items:center;gap:3px;}
   @media(max-width:500px){.app{padding:1rem 0.75rem 3rem;}.ronda-lbl{width:130px;}.header{flex-direction:column;align-items:flex-start;gap:8px;}}
 </style>
 </head>
@@ -133,7 +149,6 @@
   <div class="loading-text">conectando...</div>
 </div>
 
-<!-- Lock screen para Cargar día -->
 <div class="lock-overlay hidden" id="lock-overlay">
   <div class="lock-box">
     <div class="lock-icon"><i class="ti ti-lock"></i></div>
@@ -149,7 +164,7 @@
   <div class="header">
     <div>
       <h1><i class="ti ti-map-pin pin"></i>Maptap</h1>
-      <p>tracker semanal del grupo</p>
+      <p id="semana-label">cargando...</p>
     </div>
     <div class="sync-status">
       <div class="sync-dot" id="sync-dot"></div>
@@ -158,15 +173,16 @@
   </div>
 
   <div class="tabs">
-    <button class="tab" onclick="tryShowCarga(this)"><i class="ti ti-pencil"></i>Cargar día</button>
+    <button class="tab" onclick="tryShowCarga(this)"><i class="ti ti-pencil"></i>Cargar</button>
     <button class="tab active" onclick="showTab('semanal',this)"><i class="ti ti-trophy"></i>Tabla</button>
-    <button class="tab" onclick="showTab('paises',this)"><i class="ti ti-flag"></i>Por lugar</button>
-    <button class="tab" onclick="showTab('jugador',this)"><i class="ti ti-user"></i>Por jugador</button>
+    <button class="tab" onclick="showTab('bonus',this)"><i class="ti ti-star"></i>Bonus</button>
+    <button class="tab" onclick="showTab('paises',this)"><i class="ti ti-flag"></i>Lugares</button>
+    <button class="tab" onclick="showTab('jugador',this)"><i class="ti ti-user"></i>Jugador</button>
+    <button class="tab" onclick="showTab('historico',this)"><i class="ti ti-history"></i>Histórico</button>
   </div>
 
-  <!-- CARGA (solo visible con clave) -->
+  <!-- CARGA -->
   <div id="tab-carga" class="panel">
-    <!-- Jugadores: solo acá -->
     <div class="card">
       <div class="card-title"><i class="ti ti-users"></i>Jugadores</div>
       <div class="row">
@@ -198,6 +214,13 @@
       <button class="primary" onclick="guardarPuntaje()" style="margin-top:12px;width:100%;"><i class="ti ti-device-floppy"></i>Guardar</button>
     </div>
     <div id="resumen-dia-hoy"></div>
+
+    <!-- Cerrar semana (solo admin) -->
+    <div class="card" style="border-color:rgba(226,75,74,0.3);">
+      <div class="card-title" style="color:var(--red);"><i class="ti ti-calendar-off"></i>Cerrar semana</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Guarda los datos de la semana actual en el histórico y reinicia la tabla. Esta acción no se puede deshacer.</p>
+      <button class="danger-btn" onclick="confirmarCerrarSemana()" style="width:100%;"><i class="ti ti-lock-open"></i>Cerrar semana actual</button>
+    </div>
   </div>
 
   <!-- TABLA SEMANAL -->
@@ -205,6 +228,15 @@
     <div class="card">
       <div class="card-title"><i class="ti ti-trophy"></i>Tabla de la semana</div>
       <div id="tabla-semanal"></div>
+    </div>
+  </div>
+
+  <!-- BONUS SEMANAL -->
+  <div id="tab-bonus" class="panel">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-star"></i>Bonus semanal x1.5</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Cada jugador elige un día donde su resultado final se multiplica x1.5. Una vez elegido no se puede cambiar.</p>
+      <div id="bonus-content"></div>
     </div>
   </div>
 
@@ -221,6 +253,11 @@
       <div id="jugador-selector"></div>
     </div>
     <div id="resumen-jugador"></div>
+  </div>
+
+  <!-- HISTORICO -->
+  <div id="tab-historico" class="panel">
+    <div id="historico-content"></div>
   </div>
 </div>
 
@@ -253,43 +290,46 @@ const RONDAS = [
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-let players=[], diasData={}, selectedDay='Lunes', selectedPaisesDay='Lunes', selectedResumenPlayer=null;
-let cargaUnlocked = false;
-let pendingCargaBtn = null;
+let players=[], diasData={}, bonusDia={}, historico=[], semanaNum=1;
+let selectedDay='Lunes', selectedPaisesDay='Lunes', selectedResumenPlayer=null;
+let cargaUnlocked=false, pendingCargaBtn=null;
 
 // ---- LOCK ----
-window.tryShowCarga = function(btn) {
-  if(cargaUnlocked) { showTab('carga', btn); return; }
-  pendingCargaBtn = btn;
+window.tryShowCarga=function(btn){
+  if(cargaUnlocked){showTab('carga',btn);return;}
+  pendingCargaBtn=btn;
   document.getElementById('lock-overlay').classList.remove('hidden');
   document.getElementById('lock-input').value='';
   document.getElementById('lock-error').textContent='';
-  setTimeout(()=>document.getElementById('lock-input').focus(), 100);
+  setTimeout(()=>document.getElementById('lock-input').focus(),100);
 };
-window.checkLock = function() {
-  const val = document.getElementById('lock-input').value.trim();
-  if(val === CLAVE) {
-    cargaUnlocked = true;
+window.checkLock=function(){
+  const val=document.getElementById('lock-input').value.trim();
+  if(val===CLAVE){
+    cargaUnlocked=true;
     document.getElementById('lock-overlay').classList.add('hidden');
-    if(pendingCargaBtn) showTab('carga', pendingCargaBtn);
+    if(pendingCargaBtn) showTab('carga',pendingCargaBtn);
   } else {
-    document.getElementById('lock-error').textContent = 'Clave incorrecta';
+    document.getElementById('lock-error').textContent='Clave incorrecta';
     document.getElementById('lock-input').value='';
     document.getElementById('lock-input').focus();
   }
 };
-document.getElementById('lock-input').addEventListener('keydown', e=>{ if(e.key==='Enter') window.checkLock(); if(e.key==='Escape') document.getElementById('lock-overlay').classList.add('hidden'); });
+document.getElementById('lock-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter') window.checkLock();
+  if(e.key==='Escape') document.getElementById('lock-overlay').classList.add('hidden');
+});
 
 // ---- UTILS ----
 function setSyncStatus(s){
-  const dot=document.getElementById('sync-dot'), lbl=document.getElementById('sync-label');
+  const dot=document.getElementById('sync-dot'),lbl=document.getElementById('sync-label');
   dot.className='sync-dot '+(s||'');
   lbl.textContent=s==='connected'?'en línea':s==='syncing'?'guardando...':'desconectado';
 }
 function toast(msg){
   const el=document.getElementById('toast');
   el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2200);
+  setTimeout(()=>el.classList.remove('show'),2500);
 }
 function getDia(d){
   if(!diasData[d]) diasData[d]={lugares:['','','','',''],jornadas:[]};
@@ -299,17 +339,45 @@ function getDia(d){
 }
 async function saveDB(){
   setSyncStatus('syncing');
-  try{ await set(ref(db,'maptap'),{players,diasData}); setSyncStatus('connected'); }
-  catch(e){ setSyncStatus(''); toast('Error al guardar ⚠️'); }
+  try{
+    await set(ref(db,'maptap'),{players,diasData,bonusDia,historico,semanaNum});
+    setSyncStatus('connected');
+  } catch(e){ setSyncStatus(''); toast('Error al guardar ⚠️'); }
+}
+
+// ---- BONUS 100 ----
+// Si un jugador saca 100 en una ronda, recibe 10 * mult de esa ronda como bonus
+function calcBonus100(rondas){
+  return rondas.reduce((sum,r)=>{
+    if(r.ptsBase===100) return sum + (10 * r.mult);
+    return sum;
+  },0);
+}
+
+// ---- TOTAL CON TODOS LOS BONUSES ----
+function calcTotalConBonus(player, day, totalBase){
+  // Bonus 100 ya viene incluido en totalBase (se calcula al guardar)
+  // Aplicar x1.5 si este dia es el bonus semanal del jugador
+  if(bonusDia[player] && bonusDia[player]===day){
+    return Math.round(totalBase * 1.5);
+  }
+  return totalBase;
 }
 
 // ---- FIREBASE ----
 function initFirebase(){
   onValue(ref(db,'maptap'),(snap)=>{
     const data=snap.val();
-    if(data){ players=data.players||[]; diasData=data.diasData||{}; }
+    if(data){
+      players=data.players||[];
+      diasData=data.diasData||{};
+      bonusDia=data.bonusDia||{};
+      historico=data.historico||[];
+      semanaNum=data.semanaNum||1;
+    }
     document.getElementById('loading-overlay').classList.add('hidden');
     setSyncStatus('connected');
+    document.getElementById('semana-label').textContent=`semana ${semanaNum}`;
     renderPlayerList(); updateSelects();
     renderDias(); renderDiasPaises();
     renderLugaresInputs(); checkLugaresConfirmados();
@@ -357,7 +425,7 @@ function checkLugaresConfirmados(){
 }
 function updateStepIndicators(){
   const ok=getDia(selectedDay).lugares&&getDia(selectedDay).lugares.some(l=>l);
-  const s1=document.getElementById('step1-num'), s2=document.getElementById('step2-num');
+  const s1=document.getElementById('step1-num'),s2=document.getElementById('step2-num');
   if(ok){ s1.classList.add('done'); s1.innerHTML='<i class="ti ti-check" style="font-size:12px;"></i>'; s2.classList.add('done'); }
   else{ s1.classList.remove('done'); s1.textContent='1'; s2.classList.remove('done'); }
 }
@@ -369,10 +437,15 @@ window.previewPuntaje=function(){
   const prev=document.getElementById('parse-preview'), tot=document.getElementById('parse-total');
   if(!pts.length){prev.innerHTML='';tot.innerHTML='';return;}
   let total=0;
-  prev.innerHTML=RONDAS.map((r,i)=>{ const p=pts[i]||0,f=p*r.mult; total+=f;
-    return `<div class="parse-pill"><div class="p-label"><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div><div class="p-pts">${f}</div><div class="p-lugar">${(dia.lugares&&dia.lugares[i])||'—'}</div></div>`;
-  }).join('');
-  tot.innerHTML=`Total: <span>${total} pts</span>`;
+  const rondas=RONDAS.map((r,i)=>{ const p=pts[i]||0,f=p*r.mult; total+=f; return {r,p,f,i}; });
+  const bonus100=rondas.reduce((s,{r,p})=>p===100?s+(10*r.mult):s,0);
+  const totalConBonus=total+bonus100;
+  prev.innerHTML=rondas.map(({r,p,f,i})=>`<div class="parse-pill">
+    <div class="p-label"><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
+    <div class="p-pts">${f}${p===100?'<div style="font-size:9px;color:var(--accent);margin-top:1px;">+${10*r.mult}🎯</div>':''}</div>
+    <div class="p-lugar">${(dia.lugares&&dia.lugares[i])||'—'}</div>
+  </div>`).join('');
+  tot.innerHTML=`Total: <span>${totalConBonus} pts</span>${bonus100>0?` <span style="font-size:12px;color:var(--accent3);">(+${bonus100} bonus 100)</span>`:''}`;
 };
 window.guardarPuntaje=async function(){
   const player=document.getElementById('sel-player').value, str=document.getElementById('puntaje-input').value;
@@ -385,9 +458,11 @@ window.guardarPuntaje=async function(){
     ptsBase:pts[i]||0, ptsFinales:(pts[i]||0)*r.mult,
     emoji:(str.trim().split(/\s+/)[i]||'').replace(/\d+/g,'').trim()
   }));
-  const total=rondas.reduce((s,r)=>s+r.ptsFinales,0);
+  const bonus100=calcBonus100(rondas);
+  const totalBase=rondas.reduce((s,r)=>s+r.ptsFinales,0)+bonus100;
+  const total=calcTotalConBonus(player,selectedDay,totalBase);
   dia.jornadas=(dia.jornadas||[]).filter(j=>j.player!==player);
-  dia.jornadas.push({player,day:selectedDay,rondas,total,id:Date.now()});
+  dia.jornadas.push({player,day:selectedDay,rondas,totalBase,total,bonus100,id:Date.now()});
   await saveDB();
   document.getElementById('puntaje-input').value='';
   document.getElementById('parse-preview').innerHTML='';
@@ -399,83 +474,148 @@ window.removeJornada=async function(player,day){
   await saveDB(); renderAll();
 };
 
+// ---- CERRAR SEMANA ----
+window.confirmarCerrarSemana=function(){
+  if(!confirm(`¿Cerrar la Semana ${semanaNum} y guardarla en el histórico? Esta acción no se puede deshacer.`)) return;
+  cerrarSemana();
+};
+async function cerrarSemana(){
+  // Calcular totales finales de la semana
+  const totales=players.map(p=>{
+    let total=0;
+    DIAS.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
+    return {player:p,total};
+  }).sort((a,b)=>b.total-a.total);
+
+  // Guardar en historico
+  historico.push({
+    semana: semanaNum,
+    fechaCierre: new Date().toLocaleDateString('es-AR'),
+    totales
+  });
+
+  // Resetear semana actual
+  semanaNum++;
+  diasData={};
+  bonusDia={};
+
+  await saveDB();
+  document.getElementById('semana-label').textContent=`semana ${semanaNum}`;
+  renderAll();
+  toast(`Semana ${semanaNum-1} cerrada ✓`);
+}
+
 // ---- RESUMEN DIA ----
 function renderResumenDiaHoy(){
   const el=document.getElementById('resumen-dia-hoy'), jornadas=(getDia(selectedDay).jornadas||[]);
   if(!jornadas.length){el.innerHTML='';return;}
   const sorted=[...jornadas].sort((a,b)=>b.total-a.total);
   el.innerHTML=`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Resultados del ${selectedDay}</div>`+
-    sorted.map((j,idx)=>`<div class="jornada-card">
-      <div class="jornada-header">
-        <span class="jornada-name">${idx===0?'🥇 ':''}${j.player}</span>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="jornada-total">${j.total}</span>
-          <button class="danger" onclick="removeJornada('${j.player}','${j.day}')" style="padding:5px 8px;"><i class="ti ti-trash"></i></button>
+    sorted.map((j,idx)=>{
+      const tieneBonus=bonusDia[j.player]===selectedDay;
+      return `<div class="jornada-card">
+        <div class="jornada-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="jornada-name">${idx===0?'🥇 ':''}${j.player}</span>
+            ${tieneBonus?'<span class="bonus-tag">BONUS x1.5</span>':''}
+            ${j.bonus100>0?`<span class="perfect-tag">+${j.bonus100} 🎯</span>`:''}
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="text-align:right;">
+              ${j.totalBase!==j.total?`<div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">${j.totalBase} base</div>`:''}
+              <span class="jornada-total">${j.total}</span>
+            </div>
+            <button class="danger" onclick="removeJornada('${j.player}','${j.day}')" style="padding:5px 8px;"><i class="ti ti-trash"></i></button>
+          </div>
         </div>
-      </div>
-      <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell">
-        <div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
-        <div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div>
-        <div class="mini-lugar">${r.lugar||'—'}</div>
-      </div>`).join('')}</div>
-    </div>`).join('');
+        <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell">
+          <div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div>
+          <div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}${r.ptsBase===100?'<span style="color:var(--accent);font-size:9px;">★</span>':''}</div>
+          <div class="mini-lugar">${r.lugar||'—'}</div>
+        </div>`).join('')}</div>
+      </div>`;
+    }).join('');
 }
 
-// ---- TABLA SEMANAL CON VARIACION ----
-function getPosicionesDelDia(dia) {
-  // Retorna un objeto {player: posicion} para ese dia (1-indexed)
-  const jornadas = getDia(dia).jornadas || [];
-  if (!jornadas.length) return {};
-  const sorted = [...jornadas].sort((a,b)=>b.total-a.total);
-  const pos = {};
-  sorted.forEach((j,i) => { pos[j.player] = i+1; });
-  return pos;
+// ---- TABLA SEMANAL ----
+function getTotalesAcumulados(){
+  return players.map(p=>{
+    let total=0;
+    DIAS.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
+    const dias=DIAS.reduce((s,d)=>s+(getDia(d).jornadas||[]).filter(j=>j.player===p).length,0);
+    return {name:p,total,dias};
+  }).sort((a,b)=>b.total-a.total);
 }
 function renderTablasSemanal(){
   const el=document.getElementById('tabla-semanal');
   if(!players.length){el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Agregá jugadores primero</div>';return;}
-
-  // Totales acumulados
-  const totals=players.map(p=>{
-    let total=0; DIAS.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
-    const dias=DIAS.reduce((s,d)=>s+(getDia(d).jornadas||[]).filter(j=>j.player===p).length,0);
-    return {name:p,total,dias};
-  }).sort((a,b)=>b.total-a.total);
-
-  // Posicion actual (ranking acumulado)
-  const posActual = {};
-  totals.forEach((t,i) => { posActual[t.name] = i+1; });
-
-  // Posicion de ayer (sin el dia de hoy)
-  // Encontrar el ultimo dia con datos antes del dia seleccionado
-  // Usamos los totales sin el dia actual para comparar
-  const hoyIdx = DIAS.indexOf(selectedDay);
-  const diasAnteriores = DIAS.slice(0, hoyIdx);
-  const totalsAyer = players.map(p=>{
+  const totals=getTotalesAcumulados();
+  const posActual={};
+  totals.forEach((t,i)=>{ posActual[t.name]=i+1; });
+  const hoyIdx=DIAS.indexOf(selectedDay);
+  const diasAnt=DIAS.slice(0,hoyIdx);
+  const totalsAyer=players.map(p=>{
     let total=0;
-    diasAnteriores.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
+    diasAnt.forEach(d=>(getDia(d).jornadas||[]).filter(j=>j.player===p).forEach(j=>total+=j.total));
     return {name:p,total};
   }).sort((a,b)=>b.total-a.total);
-  const posAyer = {};
-  totalsAyer.forEach((t,i) => { posAyer[t.name] = i+1; });
-
-  function varBadge(player) {
-    const pa = posAyer[player], pn = posActual[player];
-    if(pa === undefined || pa === pn) return `<span class="var-same">—</span>`;
-    const diff = pa - pn; // positivo = subió
-    if(diff > 0) return `<span class="var-up">▲${diff}</span>`;
+  const posAyer={};
+  totalsAyer.forEach((t,i)=>{ posAyer[t.name]=i+1; });
+  function varBadge(player){
+    const pa=posAyer[player],pn=posActual[player];
+    if(pa===undefined||pa===pn) return `<span class="var-same">—</span>`;
+    const diff=pa-pn;
+    if(diff>0) return `<span class="var-up">▲${diff}</span>`;
     return `<span class="var-down">▼${Math.abs(diff)}</span>`;
   }
-
+  function bonusBadge(player){
+    const d=bonusDia[player];
+    if(!d) return '';
+    return `<span class="bonus-tag" style="margin-left:4px;">${d.substring(0,3)}</span>`;
+  }
   el.innerHTML=`<table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="width:36px;text-align:center;">±</th><th>Días</th><th style="text-align:right;">Total</th></tr></thead><tbody>`+
     totals.map((t,i)=>`<tr>
       <td style="color:var(--muted);">${i===0&&t.total>0?'🥇':i===1&&t.total>0?'🥈':i===2&&t.total>0?'🥉':i+1}</td>
-      <td style="font-weight:700;">${t.name}${i===0&&t.total>0?'<span class="leader">líder</span>':''}</td>
+      <td style="font-weight:700;">${t.name}${i===0&&t.total>0?'<span class="leader">líder</span>':''}${bonusBadge(t.name)}</td>
       <td style="text-align:center;">${varBadge(t.name)}</td>
       <td style="color:var(--muted);font-family:'DM Mono',monospace;">${t.dias}</td>
       <td style="text-align:right;" class="pts-val">${t.total}</td>
     </tr>`).join('')+`</tbody></table>`;
 }
+
+// ---- BONUS SEMANAL ----
+function renderBonus(){
+  const el=document.getElementById('bonus-content');
+  if(!players.length){el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Agregá jugadores primero</div>';return;}
+  el.innerHTML=players.map(p=>{
+    const elegido=bonusDia[p];
+    if(elegido){
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:0.5px solid var(--border);">
+        <span style="font-weight:600;">${p}</span>
+        <span class="bonus-tag" style="font-size:13px;padding:4px 12px;">★ ${elegido}</span>
+      </div>`;
+    }
+    return `<div style="padding:12px 0;border-bottom:0.5px solid var(--border);">
+      <div style="font-weight:600;margin-bottom:8px;">${p}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${DIAS.map(d=>`<div class="dia-chip" onclick="elegirBonus('${p}','${d}')" style="cursor:pointer;">${d}</div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+window.elegirBonus=async function(player,dia){
+  if(bonusDia[player]){toast('Ya elegiste tu día bonus');return;}
+  if(!confirm(`¿Confirmar ${dia} como día bonus para ${player}? No se puede cambiar después.`)) return;
+  bonusDia[player]=dia;
+  // Recalcular jornada de ese dia si ya existe
+  const jornadaDia=getDia(dia).jornadas||[];
+  const j=jornadaDia.find(j=>j.player===player);
+  if(j){ j.total=calcTotalConBonus(player,dia,j.totalBase||j.total); }
+  await saveDB();
+  renderBonus();
+  renderTablasSemanal();
+  toast(`${player} → bonus el ${dia} ✓`);
+};
 
 // ---- POR LUGAR ----
 function renderPaises(){
@@ -489,7 +629,7 @@ function renderPaises(){
       <table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="text-align:right;">Base</th><th style="text-align:right;">Final</th></tr></thead><tbody>`+
       res.map((v,idx)=>`<tr>
         <td style="color:var(--muted);">${idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':idx+1}</td>
-        <td>${v.player} <span style="font-size:14px;">${v.emoji}</span></td>
+        <td>${v.player} <span style="font-size:14px;">${v.emoji}</span>${v.ptsBase===100?'<span class="perfect-tag" style="margin-left:4px;">100★</span>':''}</td>
         <td style="text-align:right;color:var(--muted);font-family:'DM Mono',monospace;">${v.ptsBase}</td>
         <td style="text-align:right;font-family:'DM Mono',monospace;" class="${v.pts===max?'pts-val':''}">${v.pts}</td>
       </tr>`).join('')+`</tbody></table></div>`;
@@ -510,25 +650,106 @@ function renderResumenJugador(){
   const total=all.reduce((s,j)=>s+j.total,0), mejor=all.reduce((b,j)=>j.total>b.total?j:b,all[0]);
   const byLugar={};
   all.forEach(j=>j.rondas.forEach(r=>{ if(!r.lugar) return; if(!byLugar[r.lugar]) byLugar[r.lugar]=[]; byLugar[r.lugar].push({day:j.day,pts:r.ptsFinales,ptsBase:r.ptsBase,label:r.label,cls:r.cls,emoji:r.emoji}); }));
+  const bonusDiaPlayer=bonusDia[selectedResumenPlayer];
   el.innerHTML=`<div class="stats-grid">
     <div class="stat-box"><div class="stat-lbl">Total</div><div class="stat-val">${total}</div></div>
     <div class="stat-box"><div class="stat-lbl">Mejor día</div><div class="stat-val">${mejor.total}</div></div>
     <div class="stat-box"><div class="stat-lbl">Días</div><div class="stat-val">${all.length}</div></div>
   </div>
+  ${bonusDiaPlayer?`<div style="margin-bottom:1rem;font-size:13px;color:var(--muted);">Día bonus: <span class="bonus-tag" style="font-size:13px;">${bonusDiaPlayer}</span></div>`:''}
   <div class="section-div">Por lugar</div>`+
   Object.entries(byLugar).sort((a,b)=>b[1].reduce((s,r)=>s+r.pts,0)-a[1].reduce((s,r)=>s+r.pts,0)).map(([lugar,rs])=>{
     const lt=rs.reduce((s,r)=>s+r.pts,0);
     return `<div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-weight:700;">${lugar}</span><span class="pts-val">${lt}</span></div>`+
       rs.map(r=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:0.5px solid var(--border);">
-        <span><span class="badge ${r.cls}" style="margin-right:5px;">${r.label} — ${r.day}</span><span style="font-size:14px;">${r.emoji}</span></span>
+        <span><span class="badge ${r.cls}" style="margin-right:5px;">${r.label} — ${r.day}</span><span style="font-size:14px;">${r.emoji}</span>${r.ptsBase===100?'<span class="perfect-tag" style="margin-left:4px;">★</span>':''}</span>
         <span style="font-family:'DM Mono',monospace;color:var(--accent);">${r.pts}</span>
       </div>`).join('')+`</div>`;
   }).join('')+
   `<div class="section-div">Por día</div>`+
   all.sort((a,b)=>DIAS.indexOf(a.day)-DIAS.indexOf(b.day)).map(j=>`<div class="card" style="margin-bottom:8px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-weight:700;">${j.day}</span><span class="pts-val">${j.total}</span></div>
-    <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell"><div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div><div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}</div><div class="mini-lugar">${r.lugar||'—'}</div></div>`).join('')}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-weight:700;">${j.day}</span>
+        ${bonusDiaPlayer===j.day?'<span class="bonus-tag">BONUS x1.5</span>':''}
+        ${j.bonus100>0?`<span class="perfect-tag">+${j.bonus100}🎯</span>`:''}
+      </div>
+      <span class="pts-val">${j.total}</span>
+    </div>
+    <div class="mini-grid">${j.rondas.map(r=>`<div class="mini-cell"><div><span class="badge ${r.cls}" style="font-size:9px;">${r.label}</span></div><div class="mini-pts" style="margin-top:3px;">${r.ptsFinales}${r.ptsBase===100?'<span style="color:var(--accent);font-size:9px;">★</span>':''}</div><div class="mini-lugar">${r.lugar||'—'}</div></div>`).join('')}</div>
   </div>`).join('');
+}
+
+// ---- HISTORICO ----
+function renderHistorico(){
+  const el=document.getElementById('historico-content');
+  if(!historico.length){el.innerHTML='<div class="empty"><i class="ti ti-history"></i>Aún no hay semanas cerradas</div>';return;}
+
+  // Medallero global
+  const medallero={};
+  historico.forEach(s=>{
+    s.totales.forEach((t,i)=>{
+      if(!medallero[t.player]) medallero[t.player]={oro:0,plata:0,bronce:0};
+      if(i===0) medallero[t.player].oro++;
+      else if(i===1) medallero[t.player].plata++;
+      else if(i===2) medallero[t.player].bronce++;
+    });
+  });
+  const medalleroSort=Object.entries(medallero).sort((a,b)=>
+    b[1].oro-a[1].oro || b[1].plata-a[1].plata || b[1].bronce-a[1].bronce
+  );
+
+  // Tabla histórica acumulada
+  const acumulado={};
+  historico.forEach(s=>{
+    s.totales.forEach(t=>{
+      if(!acumulado[t.player]) acumulado[t.player]=0;
+      acumulado[t.player]+=t.total;
+    });
+  });
+  const acumuladoSort=Object.entries(acumulado).sort((a,b)=>b[1]-a[1]);
+
+  el.innerHTML=`
+    <div class="card">
+      <div class="card-title"><i class="ti ti-medal"></i>Medallero histórico</div>
+      ${medalleroSort.map(([name,m],i)=>`
+        <div class="medallero-row">
+          <span style="color:var(--muted);font-size:13px;width:20px;">${i+1}</span>
+          <span class="medallero-name">${name}</span>
+          <div class="med-counts">
+            <div class="med-count"><span class="med">🥇</span><span>${m.oro}</span></div>
+            <div class="med-count"><span class="med">🥈</span><span>${m.plata}</span></div>
+            <div class="med-count"><span class="med">🥉</span><span>${m.bronce}</span></div>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-list-numbers"></i>Acumulado histórico</div>
+      <table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="text-align:right;">Total</th></tr></thead><tbody>
+        ${acumuladoSort.map(([name,total],i)=>`<tr>
+          <td style="color:var(--muted);">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+          <td style="font-weight:700;">${name}</td>
+          <td style="text-align:right;" class="pts-val">${total}</td>
+        </tr>`).join('')}
+      </tbody></table>
+    </div>
+
+    <div class="section-div">Semanas anteriores</div>
+    ${[...historico].reverse().map(s=>`
+      <div class="semana-card">
+        <div class="semana-header">
+          <span class="semana-titulo"><i class="ti ti-calendar" style="margin-right:6px;"></i>Semana ${s.semana}</span>
+          <span style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;">${s.fechaCierre}</span>
+        </div>
+        <table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="text-align:right;">Pts</th></tr></thead><tbody>
+          ${s.totales.map((t,i)=>`<tr>
+            <td>${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+            <td style="font-weight:${i===0?'700':'400'}">${t.player}</td>
+            <td style="text-align:right;" class="${i===0?'pts-val':''}">${t.total}</td>
+          </tr>`).join('')}
+        </tbody></table>
+      </div>`).join('')}`;
 }
 
 // ---- JUGADORES ----
@@ -543,6 +764,7 @@ window.removePlayer=async function(name){
   players=players.filter(p=>p!==name);
   DIAS.forEach(d=>{ getDia(d).jornadas=(getDia(d).jornadas||[]).filter(j=>j.player!==name); });
   if(selectedResumenPlayer===name) selectedResumenPlayer=null;
+  delete bonusDia[name];
   await saveDB(); renderPlayerList(); updateSelects(); renderAll();
 };
 function renderPlayerList(){
@@ -555,7 +777,14 @@ function updateSelects(){
   sel.innerHTML='<option value="">Jugador...</option>'+players.map(p=>`<option value="${p}"${p===val?' selected':''}>${p}</option>`).join('');
   renderJugadorSelector();
 }
-function renderAll(){ renderResumenDiaHoy(); renderTablasSemanal(); renderPaises(); renderResumenJugador(); }
+function renderAll(){
+  renderResumenDiaHoy();
+  renderTablasSemanal();
+  renderBonus();
+  renderPaises();
+  renderResumenJugador();
+  renderHistorico();
+}
 
 window.showTab=function(tab,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
