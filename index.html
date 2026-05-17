@@ -54,7 +54,7 @@
   .dias{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
   .dia-chip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;}
   .dia-chip.sel{background:rgba(200,240,74,0.12);color:var(--accent);border-color:var(--accent);}
-  .dia-chip.-sel{background:rgba(240,160,74,0.15);color:var(--accent3);border-color:var(--accent3);}
+  .dia-chip.bonus-sel{background:rgba(240,160,74,0.15);color:var(--accent3);border-color:var(--accent3);}
   .dia-chip.disabled{opacity:0.4;cursor:not-allowed;}
   .player-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 12px;border-radius:20px;font-size:13px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;margin:2px;}
   .player-chip.sel{background:rgba(167,139,250,0.12);color:var(--purple);border-color:var(--purple);}
@@ -126,7 +126,7 @@
   .var-up{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--green);}
   .var-down{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--red);}
   .var-same{font-family:'DM Mono',monospace;font-size:11px;color:var(--hint);}
-  .-tag{background:rgba(240,160,74,0.15);color:var(--accent3);border:0.5px solid var(--accent3);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
+  .bonus-tag{background:rgba(240,160,74,0.15);color:var(--accent3);border:0.5px solid var(--accent3);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
   .perfect-tag{background:rgba(200,240,74,0.15);color:var(--accent);border:0.5px solid var(--accent);border-radius:4px;font-size:10px;font-weight:700;padding:1px 5px;font-family:'DM Mono',monospace;}
   /* Historico */
   .semana-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
@@ -175,6 +175,7 @@
   <div class="tabs">
     <button class="tab" onclick="tryShowCarga(this)"><i class="ti ti-pencil"></i>Cargar</button>
     <button class="tab active" onclick="showTab('semanal',this)"><i class="ti ti-trophy"></i>Tabla</button>
+    <button class="tab" onclick="showTab('bonus',this)"><i class="ti ti-star"></i>Bonus</button>
     <button class="tab" onclick="showTab('paises',this)"><i class="ti ti-flag"></i>Lugares</button>
     <button class="tab" onclick="showTab('jugador',this)"><i class="ti ti-user"></i>Jugador</button>
     <button class="tab" onclick="showTab('historico',this)"><i class="ti ti-history"></i>Histórico</button>
@@ -219,6 +220,17 @@
       <div class="card-title" style="color:var(--red);"><i class="ti ti-calendar-off"></i>Cerrar semana</div>
       <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Guarda los datos de la semana actual en el histórico y reinicia la tabla. Esta acción no se puede deshacer.</p>
       <button class="danger-btn" onclick="confirmarCerrarSemana()" style="width:100%;"><i class="ti ti-lock-open"></i>Cerrar semana actual</button>
+    </div>
+    <!-- Revelar bonus (solo admin) -->
+    <div class="card" style="border-color:rgba(240,160,74,0.3);">
+      <div class="card-title" style="color:var(--accent3);"><i class="ti ti-star"></i>Bonus semanal</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Habilitá la sección para que los jugadores elijan su día bonus. Podés revelar las elecciones antes de que todos hayan elegido.</p>
+      <div id="bonus-admin-status" style="font-size:13px;color:var(--muted);margin-bottom:0.75rem;"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="btn-toggle-bonus" onclick="toggleBonus()" style="flex:1;justify-content:center;min-width:120px;"></button>
+        <button onclick="revelarBonus()" id="btn-revelar" style="flex:1;justify-content:center;min-width:120px;"><i class="ti ti-eye"></i>Revelar</button>
+        <button onclick="resetearBonus()" style="flex:1;justify-content:center;min-width:120px;border-color:var(--red);color:var(--red);"><i class="ti ti-refresh"></i>Resetear bonus</button>
+      </div>
     </div>
   </div>
 
@@ -290,7 +302,10 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 let players=[], diasData={}, bonusDia={}, historico=[], semanaNum=1;
+let bonusRevelado=false; // true cuando admin revela o todos eligieron
+let bonusHabilitado=false; // el admin habilita/bloquea la seccion
 let selectedDay='Lunes', selectedPaisesDay='Lunes', selectedResumenPlayer=null;
+let bonusIdentidad=null; // jugador identificado en la pestaña bonus
 let cargaUnlocked=false, pendingCargaBtn=null;
 
 // ---- LOCK ----
@@ -339,7 +354,7 @@ function getDia(d){
 async function saveDB(){
   setSyncStatus('syncing');
   try{
-    await set(ref(db,'maptap'),{players,diasData,bonusDia,historico,semanaNum});
+    await set(ref(db,'maptap'),{players,diasData,bonusDia,historico,semanaNum,bonusRevelado,bonusHabilitado});
     setSyncStatus('connected');
   } catch(e){ setSyncStatus(''); toast('Error al guardar ⚠️'); }
 }
@@ -373,6 +388,8 @@ function initFirebase(){
       bonusDia=data.bonusDia||{};
       historico=data.historico||[];
       semanaNum=data.semanaNum||1;
+      bonusRevelado=data.bonusRevelado||false;
+      bonusHabilitado=data.bonusHabilitado||false;
     }
     document.getElementById('loading-overlay').classList.add('hidden');
     setSyncStatus('connected');
@@ -497,6 +514,9 @@ async function cerrarSemana(){
   semanaNum++;
   diasData={};
   bonusDia={};
+  bonusRevelado=false;
+  bonusHabilitado=false;
+  bonusIdentidad=null;
 
   await saveDB();
   document.getElementById('semana-label').textContent=`semana ${semanaNum}`;
@@ -583,37 +603,123 @@ function renderTablasSemanal(){
 }
 
 // ---- BONUS SEMANAL ----
+function todosEligieron(){
+  return players.length>0 && players.every(p=>bonusDia[p]);
+}
 function renderBonus(){
   const el=document.getElementById('bonus-content');
   if(!players.length){el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Agregá jugadores primero</div>';return;}
-  el.innerHTML=players.map(p=>{
-    const elegido=bonusDia[p];
-    if(elegido){
-      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:0.5px solid var(--border);">
-        <span style="font-weight:600;">${p}</span>
-        <span class="bonus-tag" style="font-size:13px;padding:4px 12px;">★ ${elegido}</span>
-      </div>`;
+
+  // Bloqueado: mostrar solo lectura con todas las elecciones visibles
+  if(!bonusHabilitado){
+    const hayElecciones=Object.keys(bonusDia).length>0;
+    if(!hayElecciones){
+      el.innerHTML=`<div class="empty"><i class="ti ti-lock"></i>Sección deshabilitada por el administrador</div>`;
+      return;
     }
-    return `<div style="padding:12px 0;border-bottom:0.5px solid var(--border);">
-      <div style="font-weight:600;margin-bottom:8px;">${p}</div>
+    el.innerHTML=`<div style="font-size:12px;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:6px;"><i class="ti ti-lock" style="font-size:14px;"></i> Sección cerrada — elecciones de esta semana</div>`+
+      players.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border);">
+        <span style="font-weight:600;">${p}</span>
+        ${bonusDia[p]?`<span class="bonus-tag" style="font-size:13px;padding:4px 12px;">★ ${bonusDia[p]}</span>`:'<span style="color:var(--hint);font-size:13px;">no eligió</span>'}
+      </div>`).join('');
+    return;
+  }
+
+  const revelado = bonusRevelado || todosEligieron();
+
+  // Paso 1: identificarse
+  if(!bonusIdentidad){
+    el.innerHTML=`
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">¿Quién sos?</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${players.map(p=>`<button onclick="identificarseBono('${p}')" style="width:100%;justify-content:center;font-size:15px;">${p}</button>`).join('')}
+      </div>`;
+    return;
+  }
+
+  const yo=bonusIdentidad;
+  const miEleccion=bonusDia[yo];
+  const totalEligieron=Object.keys(bonusDia).length;
+
+  let html='';
+
+  // Mi elección
+  html+=`<div style="margin-bottom:1.25rem;">
+    <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Tu elección</div>`;
+  if(miEleccion){
+    html+=`<div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);">
+      <span style="font-weight:700;font-size:15px;">${yo}</span>
+      <span class="bonus-tag" style="font-size:13px;padding:4px 12px;">★ ${miEleccion}</span>
+      <span style="font-size:11px;color:var(--hint);margin-left:auto;"><i class="ti ti-lock" style="font-size:11px;"></i> bloqueado</span>
+    </div>`;
+  } else {
+    html+=`<div style="padding:10px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:10px;">
+      <div style="font-weight:700;margin-bottom:10px;">${yo}</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${DIAS.map(d=>`<div class="dia-chip" onclick="elegirBonus('${p}','${d}')" style="cursor:pointer;">${d}</div>`).join('')}
+        ${DIAS.map(d=>`<div class="dia-chip" onclick="elegirBonus('${yo}','${d}')">${d}</div>`).join('')}
       </div>
     </div>`;
+  }
+  html+=`</div>`;
+
+  // Estado del resto
+  html+=`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">${revelado?'Elecciones de todos':'Estado del grupo'}</div>`;
+  html+=players.filter(p=>p!==yo).map(p=>{
+    if(revelado){
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border);">
+        <span style="font-weight:600;">${p}</span>
+        ${bonusDia[p]?`<span class="bonus-tag" style="font-size:13px;padding:4px 12px;">★ ${bonusDia[p]}</span>`:'<span style="color:var(--hint);font-size:13px;">no eligió</span>'}
+      </div>`;
+    } else {
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border);">
+        <span style="font-weight:600;">${p}</span>
+        ${bonusDia[p]?'<span style="color:var(--green);font-size:13px;font-family:\'DM Mono\',monospace;">✓ elegido</span>':'<span style="color:var(--hint);font-size:13px;">⏳ pendiente</span>'}
+      </div>`;
+    }
   }).join('');
+
+  if(!revelado){
+    html+=`<div style="margin-top:1rem;font-size:12px;color:var(--hint);text-align:center;">${totalEligieron} de ${players.length} eligieron</div>`;
+  }
+
+  html+=`<div style="margin-top:1rem;"><button onclick="bonusIdentidad=null;renderBonus()" style="font-size:12px;color:var(--muted);"><i class="ti ti-refresh"></i>Soy otra persona</button></div>`;
+
+  el.innerHTML=html;
 }
+window.identificarseBono=function(p){ bonusIdentidad=p; renderBonus(); };
 window.elegirBonus=async function(player,dia){
   if(bonusDia[player]){toast('Ya elegiste tu día bonus');return;}
-  if(!confirm(`¿Confirmar ${dia} como día bonus para ${player}? No se puede cambiar después.`)) return;
+  if(!confirm(`¿Confirmar ${dia} como día bonus? No se puede cambiar después.`)) return;
   bonusDia[player]=dia;
-  // Recalcular jornada de ese dia si ya existe
   const jornadaDia=getDia(dia).jornadas||[];
   const j=jornadaDia.find(j=>j.player===player);
   if(j){ j.total=calcTotalConBonus(player,dia,j.totalBase||j.total); }
+  // Si todos eligieron, revelar automáticamente
+  if(todosEligieron()) bonusRevelado=true;
   await saveDB();
   renderBonus();
   renderTablasSemanal();
-  toast(`${player} → bonus el ${dia} ✓`);
+  toast(`Bonus el ${dia} ✓`);
+};
+window.resetearBonus=async function(){
+  if(!confirm('¿Resetear todas las elecciones de bonus? Los jugadores podrán elegir de nuevo.')) return;
+  bonusDia={};
+  bonusRevelado=false;
+  bonusIdentidad=null;
+  await saveDB();
+  renderAll();
+  toast('Bonus reseteado ✓');
+};
+  bonusHabilitado=!bonusHabilitado;
+  await saveDB();
+  renderAll();
+  toast(bonusHabilitado?'Bonus habilitado ✓':'Bonus bloqueado ✓');
+};
+  if(!confirm('¿Revelar las elecciones de todos aunque no hayan elegido todos?')) return;
+  bonusRevelado=true;
+  await saveDB();
+  renderBonus();
+  toast('Elecciones reveladas ✓');
 };
 
 // ---- POR LUGAR ----
@@ -783,6 +889,36 @@ function renderAll(){
   renderPaises();
   renderResumenJugador();
   renderHistorico();
+  // Admin bonus panel
+  const statusEl=document.getElementById('bonus-admin-status');
+  const btnToggle=document.getElementById('btn-toggle-bonus');
+  const btnRevelar=document.getElementById('btn-revelar');
+  if(statusEl){
+    const elegidos=Object.keys(bonusDia).length;
+    if(bonusRevelado){
+      statusEl.innerHTML=`<span style="color:var(--green);">✓ Elecciones reveladas</span>`;
+    } else if(bonusHabilitado){
+      statusEl.innerHTML=`${elegidos} de ${players.length} jugadores eligieron`;
+    } else {
+      statusEl.innerHTML=`<span style="color:var(--hint);">Sección bloqueada</span>`;
+    }
+    if(btnToggle){
+      if(bonusHabilitado){
+        btnToggle.innerHTML='<i class="ti ti-lock"></i>Bloquear';
+        btnToggle.className='danger-btn';
+      } else {
+        btnToggle.innerHTML='<i class="ti ti-lock-open"></i>Habilitar';
+        btnToggle.className='primary';
+      }
+    }
+    if(btnRevelar) btnRevelar.disabled=bonusRevelado||!bonusHabilitado;
+  }
+  // Bonus tab visual hint
+  const bonusTab=document.querySelector('.tab[onclick*="bonus"]');
+  if(bonusTab){
+    bonusTab.style.opacity=bonusHabilitado?'1':'0.4';
+    bonusTab.title=bonusHabilitado?'':'Sección deshabilitada';
+  }
 }
 
 window.showTab=function(tab,btn){
