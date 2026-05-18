@@ -590,6 +590,7 @@ function renderTablasSemanal(){
   function bonusBadge(player){
     const d=bonusDia[player];
     if(!d) return '';
+    if(!bonusRevelado && !todosEligieron()) return '';
     return `<span class="bonus-tag" style="margin-left:4px;">${d.substring(0,3)}</span>`;
   }
   el.innerHTML=`<table><thead><tr><th style="width:28px;">#</th><th>Jugador</th><th style="width:36px;text-align:center;">±</th><th>Días</th><th style="text-align:right;">Total</th></tr></thead><tbody>`+
