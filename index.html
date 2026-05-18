@@ -657,7 +657,7 @@ function renderBonus(){
     html+=`<div style="padding:10px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:10px;">
       <div style="font-weight:700;margin-bottom:10px;">${yo}</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${DIAS.map(d=>`<div class="dia-chip" onclick="elegirBonus('${yo}','${d}')">${d}</div>`).join('')}
+        ${DIAS.filter(d=>d!=='Lunes').map(d=>`<div class="dia-chip" onclick="elegirBonus('${yo}','${d}')">${d}</div>`).join('')}
       </div>
     </div>`;
   }
